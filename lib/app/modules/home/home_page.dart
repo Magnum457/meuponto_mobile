@@ -1,39 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'home_store.dart';
+import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
+import 'package:meuponto_mobile/app/core/ui/widgets/side_menu.dart';
+import 'package:meuponto_mobile/app/modules/home/widgets/servico_dialog_widget.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
   const HomePage({Key? key, this.title = 'Home'}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late final HomeStore store;
-
   @override
   void initState() {
     super.initState();
-    store = Modular.get<HomeStore>();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter'),
+        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Olá Usuário',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              TextSpan(
+                text: '\n Bem vindo ao Meu Ponto',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Color(0xFF405965),
+              size: 30,
+            ),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4),
+          child: Divider(
+            color: context.verdeCinzaCard,
+            thickness: 1,
+          ),
+        ),
       ),
-      body: Observer(
-        builder: (context) => Text('${store.counter}'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          store.increment();
-        },
-        child: Icon(Icons.add),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                ),
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return ServicoDialogWidget(
+                    onTap: () {
+                      debugPrint('Serviço');
+                    },
+                    descricao: 'Descricao do serviço',
+                    emBreve: true,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

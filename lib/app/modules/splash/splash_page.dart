@@ -20,13 +20,13 @@ class SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    reaction<UserModel?>((_) => widget._authStore.userLogged, (user) {
-      if (user != null) {
-        Modular.to.navigate('/home/');
-      } else {
-        Modular.to.navigate('/login/');
-      }
+    _timeOut().then((_) {
+      Modular.to.navigate('/login/');
     });
+  }
+
+  Future<void> _timeOut() async {
+    await Future.delayed(const Duration(seconds: 5));
   }
 
   @override

@@ -1,8 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meuponto_mobile/app/core/helpers/constants.dart';
 
 class SideMenu extends StatelessWidget {
   final String nome;

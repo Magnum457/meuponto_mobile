@@ -9,7 +9,7 @@ class UiConfig {
   static ThemeData get theme => ThemeData(
         primaryColor: const Color.fromARGB(255, 106, 193, 145),
         primaryColorDark: const Color.fromARGB(255, 109, 127, 136),
-        primaryColorLight: const Color.fromARGB(255, 64, 185, 140),
+        primaryColorLight: const Color.fromARGB(223, 207, 236, 195),
         scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
         textTheme: TextTheme(
           displayLarge: GoogleFonts.kanit(
