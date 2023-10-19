@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/side_menu.dart';
 import 'package:meuponto_mobile/app/modules/home/widgets/servico_dialog_widget.dart';
@@ -59,32 +60,50 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 60,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return ServicoDialogWidget(
-                    onTap: () {
-                      debugPrint('Serviço');
-                    },
-                    descricao: 'Descricao do serviço',
-                    emBreve: true,
-                  );
-                },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(
+                    'Serviços',
+                    style: GoogleFonts.kanit(
+                      color: const Color(0xFF405965),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Spacer(),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              Expanded(
+                child: GridView.builder(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 60,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return ServicoDialogWidget(
+                      onTap: () {
+                        debugPrint('Serviço');
+                      },
+                      descricao: 'Descricao do serviço',
+                      emBreve: true,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

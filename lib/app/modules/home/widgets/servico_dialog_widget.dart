@@ -57,7 +57,7 @@ class ServicoDialogWidget extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Padding(
+                        Container(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Text(
                             descricao,
