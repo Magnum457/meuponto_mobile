@@ -43,8 +43,8 @@ class _LoginPageState extends State<LoginPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 24),
               child: ElevatedButton(
-                onPressed: () {
-                  Modular.to.pushNamed('/home/');
+                onPressed: () async {
+                  store.loginIdentidade(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColorLight,
