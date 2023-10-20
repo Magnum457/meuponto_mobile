@@ -11,6 +11,10 @@ class Constants {
   static const LOCAL_STORAGE_USER_LOGGED_DATA_KEY =
       'LOCAL_STORAGE_USER_LOGGED_DATA_KEY';
 
+  static const clientSession = 'CLIENT_SESSION';
+
+  static const identidadeSession = 'IDENTIDADE_SESSION';
+
   static const urlIdentidadeAPI =
       'https://identidade.apps.dtcn.detran.ce.gov.br/identidade';
   static const identifierIdentidade =

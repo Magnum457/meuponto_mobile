@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:meuponto_mobile/app/models/user_model.dart';
 import 'package:meuponto_mobile/app/modules/auth/auth_store.dart';
-import 'package:mobx/mobx.dart';
 import 'package:meuponto_mobile/app/core/extensions/size_screen_extension.dart';
 
 class SplashPage extends StatefulWidget {
