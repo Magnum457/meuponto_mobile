@@ -21,7 +21,7 @@ class AuthorizationWebView extends StatefulWidget {
 
 class _AuthorizationWebViewState extends State<AuthorizationWebView> {
   final GlobalKey webViewKey = GlobalKey();
-  double _progress = 0;
+  final ValueNotifier<double> _progress = ValueNotifier<double>(0.0);
   late InAppWebViewController _webViewController;
   CookieManager cookieManager = CookieManager.instance();
   final sessionService =
@@ -29,8 +29,9 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
 
   bool navigatorPopHasCalled = false;
 
-  void _onNavigationChanged(Uri? uri) async {
+  void _onNavigationChanged(Uri? uri, InAppWebViewController controller) async {
     if (uri.toString().startsWith(widget.redirectUrl.toString())) {
+      _webViewController = controller;
       await _webViewController.stopLoading();
       if (!navigatorPopHasCalled) {
         navigatorPopHasCalled = true;
@@ -46,7 +47,7 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
         var isLastPage = await _webViewController.canGoBack();
 
         if (isLastPage) {
-          _webViewController.goBack();
+          await _webViewController.goBack();
           return false;
         }
 
@@ -54,7 +55,6 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: AppBar(title: const Text('Autenticação')),
           body: Stack(
             children: [
               InAppWebView(
@@ -65,11 +65,8 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
                   await sessionService.logoutIdentidade();
                   _webViewController = controller;
                 },
-                onProgressChanged:
-                    (InAppWebViewController controller, int progress) {
-                  setState(() {
-                    _progress = progress / 100;
-                  });
+                onProgressChanged: (controller, progress) {
+                  _progress.value = progress / 100;
                 },
                 onLoadStop: (controller, url) async {
                   final identidadeCookie = await cookieManager.getCookie(
@@ -78,14 +75,18 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
                     await sessionService
                         .saveIdentidadeSessionCookie(identidadeCookie.value);
                   }
-                  _onNavigationChanged(url);
+                  _onNavigationChanged(url, controller);
                 },
                 onLoadError: (controller, url, error, string) {
                   Navigator.pop(context);
                 },
               ),
-              _progress < 1
-                  ? LinearProgressIndicator(value: _progress)
+              _progress.value < 1
+                  ? ValueListenableBuilder(
+                      valueListenable: _progress,
+                      builder: (context, value, child) {
+                        return LinearProgressIndicator(value: value);
+                      })
                   : const SizedBox(),
             ],
           ),

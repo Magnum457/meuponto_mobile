@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meuponto_mobile/app/core/ui/widgets/messages.dart';
 import 'package:meuponto_mobile/app/modules/login/widgets/authorization_webview.dart';
+import 'package:meuponto_mobile/app/services/session/session_service.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:mobx/mobx.dart';
 
@@ -12,10 +14,13 @@ class LoginStore = LoginStoreBase with _$LoginStore;
 
 abstract class LoginStoreBase with Store {
   final AppLogger _log;
+  final SessionService _sessionService;
 
   LoginStoreBase({
     required AppLogger log,
-  }) : _log = log;
+    required SessionService sessionService,
+  })  : _log = log,
+        _sessionService = sessionService;
 
   void loginIdentidade(BuildContext context) async {
     final authorizationEndpoint =
@@ -24,19 +29,26 @@ abstract class LoginStoreBase with Store {
         Uri.parse('${Constants.urlIdentidadeAPI}/oauth/token');
     const identifier = Constants.identifierIdentidade;
     const secret = Constants.secretIdentidade;
-    final redirectUrl =
-        Uri.parse('https://meuponto.apps.dtcn.detran.ce.gov.br/meuponto');
+    final redirectUrl = Uri.parse(
+        'https://pauta-eletronica.apps.dtcn.detran.ce.gov.br/pauta_eletronica_app');
 
-    final client = await createClient(
-      identifier,
-      authorizationEndpoint,
-      tokenEndpoint,
-      redirectUrl,
-      secret,
-      context,
-    );
+    if (await _sessionService.getClientSessionJson() != null) {
+      Messages.info('O usuário já está logado!!');
+      _sessionService.deleteClientSession();
+    } else {
+      final client = await createClient(
+        identifier,
+        authorizationEndpoint,
+        tokenEndpoint,
+        redirectUrl,
+        secret,
+        context,
+      );
 
-    debugPrint(client.credentials.accessToken);
+      _sessionService.saveClientSession(client);
+
+      debugPrint(client.credentials.accessToken);
+    }
   }
 
   Future<oauth2.Client> createClient(
@@ -64,8 +76,12 @@ abstract class LoginStoreBase with Store {
         ),
       );
 
-      return await grant
-          .handleAuthorizationResponse(responseUrl.queryParameters);
+      if (responseUrl != null) {
+        return await grant
+            .handleAuthorizationResponse(responseUrl.queryParameters);
+      } else {
+        throw Exception('Erro ao realizar login');
+      }
     } catch (e) {
       _log.error(e);
       throw Exception('Erro ao realizar login');
