@@ -3,11 +3,15 @@ import 'package:meuponto_mobile/app/core/local_storage/shared_preferences/shared
 import 'package:meuponto_mobile/app/modules/login/login_page.dart';
 import 'package:meuponto_mobile/app/modules/login/login_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:meuponto_mobile/app/services/session/session_service.dart';
-import 'package:meuponto_mobile/app/services/session/session_service_impl.dart';
 
 import '../../core/logger/app_logger.dart';
+import '../../services/session/session_service.dart';
+import '../../repositories/user/user_repository.dart';
+import '../../services/user/user_service.dart';
 import '../../core/logger/app_logger_impl.dart';
+import '../../services/session/session_service_impl.dart';
+import '../../repositories/user/user_repository_impl.dart';
+import '../../services/user/user_service_impl.dart';
 
 class LoginModule extends Module {
   @override
@@ -17,8 +21,13 @@ class LoginModule extends Module {
         (i) => SharedPreferencesLocalStorageImpl()),
     Bind.lazySingleton<SessionService>(
         (i) => SessionServiceImpl(localStorage: i<LocalStorage>())),
-    Bind.lazySingleton((i) =>
-        LoginStore(log: i<AppLogger>(), sessionService: i<SessionService>())),
+    Bind.lazySingleton<UserRepository>((i) => UserRepositoryImpl()),
+    Bind.lazySingleton<UserService>(
+        (i) => UserServiceImpl(userRepository: i(), localStorage: i())),
+    Bind.lazySingleton((i) => LoginStore(
+        log: i<AppLogger>(),
+        sessionService: i<SessionService>(),
+        userService: i<UserService>())),
   ];
 
   @override

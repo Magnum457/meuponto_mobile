@@ -17,7 +17,7 @@ class UserServiceImpl implements UserService {
 
   @override
   Future<void> login() async {
-    await _saveAccessToken('');
+    await saveAccessToken('');
   }
 
   @override
@@ -25,7 +25,8 @@ class UserServiceImpl implements UserService {
     throw UnimplementedError();
   }
 
-  Future<void> _saveAccessToken(String accessToken) => _localStorage.write(
+  @override
+  Future<void> saveAccessToken(String accessToken) => _localStorage.write(
       Constants.LOCAL_STORAGE_ACCESS_TOKEN_KEY, accessToken);
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/messages.dart';
 import 'package:meuponto_mobile/app/modules/login/widgets/authorization_webview.dart';
 import 'package:meuponto_mobile/app/services/session/session_service.dart';
@@ -7,6 +8,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../core/helpers/constants.dart';
 import '../../core/logger/app_logger.dart';
+import '../../services/user/user_service.dart';
 
 part 'login_store.g.dart';
 
@@ -15,12 +17,15 @@ class LoginStore = LoginStoreBase with _$LoginStore;
 abstract class LoginStoreBase with Store {
   final AppLogger _log;
   final SessionService _sessionService;
+  final UserService _userService;
 
   LoginStoreBase({
     required AppLogger log,
     required SessionService sessionService,
+    required UserService userService,
   })  : _log = log,
-        _sessionService = sessionService;
+        _sessionService = sessionService,
+        _userService = userService;
 
   void loginIdentidade(BuildContext context) async {
     final authorizationEndpoint =
@@ -32,9 +37,11 @@ abstract class LoginStoreBase with Store {
     final redirectUrl = Uri.parse(
         'https://pauta-eletronica.apps.dtcn.detran.ce.gov.br/pauta_eletronica_app');
 
-    if (await _sessionService.getClientSessionJson() != null) {
+    final clientSession = await _sessionService.getClientSessionJson();
+    if (clientSession != null) {
       Messages.info('O usuário já está logado!!');
       _sessionService.deleteClientSession();
+      Modular.to.navigate('/home/');
     } else {
       final client = await createClient(
         identifier,
@@ -46,6 +53,9 @@ abstract class LoginStoreBase with Store {
       );
 
       _sessionService.saveClientSession(client);
+      _userService.saveAccessToken(client.credentials.accessToken);
+      Messages.alert('Usuário logado com sucesso!!');
+      Modular.to.navigate('/home/');
 
       debugPrint(client.credentials.accessToken);
     }

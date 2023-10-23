@@ -84,7 +84,7 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
               _progress.value < 1
                   ? ValueListenableBuilder(
                       valueListenable: _progress,
-                      builder: (context, value, child) {
+                      builder: (_, value, __) {
                         return LinearProgressIndicator(value: value);
                       })
                   : const SizedBox(),

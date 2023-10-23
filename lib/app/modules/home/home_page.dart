@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/side_menu.dart';
 import 'package:meuponto_mobile/app/modules/home/widgets/servico_dialog_widget.dart';
+import 'package:meuponto_mobile/app/modules/home/home_store.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -24,18 +25,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
-        title: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Olá Usuário',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              TextSpan(
-                text: '\n Bem vindo ao Meu Ponto',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ],
+        title: Observer(
+          builder: (_) => RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Olá ${'Usuário'}. ',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                TextSpan(
+                  text: '\n Bem vindo ao Meu Ponto',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ],
+            ),
           ),
         ),
         backgroundColor: Colors.white,
