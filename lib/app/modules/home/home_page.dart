@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/side_menu.dart';
 import 'package:meuponto_mobile/app/modules/home/widgets/servico_dialog_widget.dart';
 import 'package:meuponto_mobile/app/modules/home/home_store.dart';
+
+import '../../core/life_cycle/page_life_cicle_state.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -14,12 +17,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _HomePageState extends PageLifeCycleState<HomeStore, HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +28,11 @@ class _HomePageState extends State<HomePage> {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'Olá ${'Usuário'}. ',
+                  text: 'Olá ${store.loggedUser?.nome ?? 'Usuário'}. ',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 TextSpan(
-                  text: '\n Bem vindo ao Meu Ponto',
+                  text: '\nBem vindo ao Meu Ponto',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ],

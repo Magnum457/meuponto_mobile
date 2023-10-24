@@ -43,6 +43,7 @@ abstract class LoginStoreBase with Store {
       _sessionService.deleteClientSession();
       Modular.to.navigate('/home/');
     } else {
+      // ignore: use_build_context_synchronously
       final client = await createClient(
         identifier,
         authorizationEndpoint,
@@ -54,7 +55,7 @@ abstract class LoginStoreBase with Store {
 
       _sessionService.saveClientSession(client);
       _userService.saveAccessToken(client.credentials.accessToken);
-      Messages.alert('Usuário logado com sucesso!!');
+      Messages.info('Usuário logado com sucesso!!');
       Modular.to.navigate('/home/');
 
       debugPrint(client.credentials.accessToken);

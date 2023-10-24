@@ -26,6 +26,12 @@ class UserServiceImpl implements UserService {
   }
 
   @override
+  Future<void> saveUser(userModel) async {
+    await _localStorage.write(
+        Constants.LOCAL_STORAGE_USER_LOGGED_DATA_KEY, userModel.toJson());
+  }
+
+  @override
   Future<void> saveAccessToken(String accessToken) => _localStorage.write(
       Constants.LOCAL_STORAGE_ACCESS_TOKEN_KEY, accessToken);
 

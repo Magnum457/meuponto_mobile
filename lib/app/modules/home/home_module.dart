@@ -13,7 +13,7 @@ class HomeModule extends Module {
     Bind.lazySingleton<UserRepository>((i) => UserRepositoryImpl()),
     Bind.lazySingleton<UserService>(
         (i) => UserServiceImpl(userRepository: i(), localStorage: i())),
-    Bind.lazySingleton<HomeStore>((i) => HomeStore(userService: i()))
+    Bind.singleton<HomeStore>((i) => HomeStore(userService: i()))
   ];
 
   @override
