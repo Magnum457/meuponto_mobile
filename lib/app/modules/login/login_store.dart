@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/messages.dart';
+import 'package:meuponto_mobile/app/models/user_model.dart';
 import 'package:meuponto_mobile/app/modules/login/widgets/authorization_webview.dart';
 import 'package:meuponto_mobile/app/services/session/session_service.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
@@ -37,10 +41,10 @@ abstract class LoginStoreBase with Store {
     final redirectUrl = Uri.parse(
         'https://pauta-eletronica.apps.dtcn.detran.ce.gov.br/pauta_eletronica_app');
 
-    final clientSession = await _sessionService.getClientSessionJson();
+    final clientSession = await _sessionService.getCredentialClientInSession();
     if (clientSession != null) {
       Messages.info('O usuário já está logado!!');
-      _sessionService.deleteClientSession();
+      _sessionService.deleteCredentialClientInSession();
       Modular.to.navigate('/home/');
     } else {
       // ignore: use_build_context_synchronously
@@ -53,8 +57,22 @@ abstract class LoginStoreBase with Store {
         context,
       );
 
-      _sessionService.saveClientSession(client);
+      // Salvando as credentials do cliente na sessão
+      _sessionService.saveCredentialClientInSession(client);
       _userService.saveAccessToken(client.credentials.accessToken);
+      // Buscando os dados do usuário que acabou de se logar
+      Options options = Options(headers: {
+        'Authorization': 'Bearer ${client.credentials.accessToken}'
+      });
+      final response = await Dio().get(
+        '${Constants.urlIdentidadeAPI}/api/me',
+        options: options,
+      );
+      final data = response.data;
+      UserModel userModel = UserModel.fromMap(response.data);
+      // // Salvar os dados do usuário no local storage
+      _userService.saveUser(userModel);
+      // Redirecionando para a tela de home
       Messages.info('Usuário logado com sucesso!!');
       Modular.to.navigate('/home/');
 

@@ -13,18 +13,18 @@ class SessionServiceImpl implements SessionService {
       : _localStorage = localStorage;
 
   @override
-  Future<void> saveClientSession(oauth2.Client oauthClient) async {
+  Future<void> saveCredentialClientInSession(oauth2.Client oauthClient) async {
     final String client = oauthClient.credentials.toJson();
     await _localStorage.write(Constants.clientSession, client);
   }
 
   @override
-  Future<void> saveIdentidadeSessionCookie(cookie) async {
+  Future<void> saveCookieIdentidadeInSession(cookie) async {
     await _localStorage.write(Constants.identidadeSession, cookie.toString());
   }
 
   @override
-  Future<String?> getClientSessionJson() async {
+  Future<String?> getCredentialClientInSession() async {
     String? clientSession =
         await _localStorage.read<String>(Constants.clientSession);
 
@@ -32,8 +32,8 @@ class SessionServiceImpl implements SessionService {
   }
 
   @override
-  Future<String?> getAccessToken() async {
-    String? session = await getClientSessionJson();
+  Future<String?> getAccessTokenClientInSession() async {
+    String? session = await getCredentialClientInSession();
     if (session != null) {
       var data = json.decode(session);
       if (data != null) {
@@ -44,7 +44,7 @@ class SessionServiceImpl implements SessionService {
   }
 
   @override
-  Future<String> getIdentidadeSessionCookie() async {
+  Future<String> getCookieIdentidadeInSession() async {
     final identidadeSession = await _localStorage.read<String>(
       Constants.identidadeSession,
     );
@@ -52,8 +52,8 @@ class SessionServiceImpl implements SessionService {
   }
 
   @override
-  Future<oauth2.Client?> getCredentials() async {
-    String? session = await getClientSessionJson();
+  Future<oauth2.Client?> getCredentialsIdentifierAndSecret() async {
+    String? session = await getCredentialClientInSession();
     if (session != null) {
       final credentials = oauth2.Credentials.fromJson(session);
       return oauth2.Client(
@@ -66,18 +66,18 @@ class SessionServiceImpl implements SessionService {
   }
 
   @override
-  Future<void> deleteClientSession() async {
+  Future<void> deleteCredentialClientInSession() async {
     await _localStorage.remove(Constants.clientSession);
   }
 
   @override
-  Future<void> deleteIdentidadeSessionCookie() async {
+  Future<void> deleteCookieIdentidadeInSession() async {
     await _localStorage.remove(Constants.identidadeSession);
   }
 
   @override
-  Future<bool> destroySessionAccessTokenIdentidade() async {
-    String? accessToken = await getAccessToken();
+  Future<bool> destroyAccessTokenInSessionAndInIdentidade() async {
+    String? accessToken = await getAccessTokenClientInSession();
     try {
       final headers = {'content-type': 'application/json'};
       final Options options = Options(headers: headers);
@@ -93,7 +93,7 @@ class SessionServiceImpl implements SessionService {
         data: data,
       );
       if (response.statusCode == 200) {
-        await deleteClientSession();
+        await deleteCredentialClientInSession();
         return true;
       } else {
         return false;
@@ -108,7 +108,7 @@ class SessionServiceImpl implements SessionService {
   Future<bool> logoutIdentidade() async {
     try {
       var headers = {
-        "cookie": "_identidade_session=${await getIdentidadeSessionCookie()}"
+        "cookie": "_identidade_session=${await getCookieIdentidadeInSession()}"
       };
       final dio = Dio();
       final response = await dio.get(

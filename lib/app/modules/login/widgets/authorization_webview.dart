@@ -62,7 +62,8 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
                 initialUrlRequest: URLRequest(
                     url: widget.grant.getAuthorizationUrl(widget.redirectUrl)),
                 onWebViewCreated: (controller) async {
-                  await sessionService.logoutIdentidade();
+                  var resultLogout = await sessionService.logoutIdentidade();
+
                   _webViewController = controller;
                 },
                 onProgressChanged: (controller, progress) {
@@ -73,7 +74,7 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
                       url: url!, name: '_identidade_session');
                   if (identidadeCookie != null) {
                     await sessionService
-                        .saveIdentidadeSessionCookie(identidadeCookie.value);
+                        .saveCookieIdentidadeInSession(identidadeCookie.value);
                   }
                   _onNavigationChanged(url, controller);
                 },

@@ -5,8 +5,9 @@ import 'package:meuponto_mobile/app/modules/login/login_store.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  final String title;
-  const LoginPage({Key? key, this.title = 'LoginPage'}) : super(key: key);
+  const LoginPage({
+    Key? key,
+  }) : super(key: key);
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
