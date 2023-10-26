@@ -59,6 +59,12 @@ class _HomePageState extends PageLifeCycleState<HomeStore, HomePage> {
           ),
         ),
       ),
+      drawer: Observer(
+        builder: (_) => SideMenu(
+          nome: store.loggedUser?.nome ?? 'Usuário',
+          cpf: store.loggedUser?.cpf ?? '',
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
