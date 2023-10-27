@@ -31,17 +31,12 @@ class ServicoDialogWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    width: 1,
-                  ),
-                ),
-                child: Container(
-                  width: constraints.maxWidth * 0.83,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
                       width: 1,
-                    ),
-                  ),
+                      color: const Color.fromARGB(255, 217, 217, 217)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: constraints.maxWidth * 0.083),
                   child: Column(
                     children: [
                       Align(

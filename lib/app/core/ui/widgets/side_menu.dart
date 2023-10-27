@@ -111,7 +111,9 @@ class SideMenu extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {},
+                onTap: () {
+                  Modular.to.pushNamed('/login/');
+                },
               ),
             ],
           ),
