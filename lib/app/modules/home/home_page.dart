@@ -103,7 +103,7 @@ class _HomePageState extends PageLifeCycleState<HomeStore, HomePage> {
                       onTap: () {
                         debugPrint('Serviço');
                       },
-                      descricao: 'Descricao do serviço',
+                      descricao: 'Registrar o ponto',
                       emBreve: true,
                     );
                   },

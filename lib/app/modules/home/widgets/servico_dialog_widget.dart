@@ -22,79 +22,75 @@ class ServicoDialogWidget extends StatelessWidget {
         ),
         child: InkWell(
           onTap: onTap,
-          child: Column(
+          child: Stack(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        width: 1,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                              width: constraints.maxWidth * 0.8,
-                              child: Container(
-                                height: constraints.maxWidth * 0.5,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Image.asset(
-                                  'assets/icons/indicacao.png',
-                                  width: 60,
-                                  height: 60,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            descricao,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: emBreve
-                                  ? const Color.fromARGB(255, 20, 21, 22)
-                                      .withOpacity(0.5)
-                                  : const Color.fromARGB(255, 20, 21, 22),
-                              fontSize: 14,
-                              fontFamily: 'Kanit',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
+              Container(
+                width: constraints.maxWidth,
+                margin: EdgeInsets.only(
+                    top: constraints.maxHeight * 0.083), // 1/12 do card total
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    width: 1,
+                  ),
+                ),
+                child: Container(
+                  width: constraints.maxWidth * 0.83,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
                     ),
                   ),
-                  if (emBreve)
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: context.verdeCinzaCard,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          'Em breve',
-                          style: context.textTheme.bodyLarge,
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: constraints.maxHeight *
+                                  0.05), // 1/20 do card total
+                          child: Image.asset(
+                            'assets/icons/indicacao.png',
+                            width: constraints.maxWidth * 0.5,
+                            height: constraints.maxHeight * 0.5,
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                      Text(
+                        descricao,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: emBreve
+                              ? const Color.fromARGB(255, 20, 21, 22)
+                                  .withOpacity(0.5)
+                              : const Color.fromARGB(255, 20, 21, 22),
+                          fontSize: 14,
+                          fontFamily: 'Kanit',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
+              if (emBreve)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: context.verdeCinzaCard,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      'Em breve',
+                      style: context.textTheme.bodyLarge,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
