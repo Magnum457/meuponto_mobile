@@ -1,4 +1,5 @@
 import 'package:meuponto_mobile/app/core/life_cycle/controller_life_cycle.dart';
+import 'package:meuponto_mobile/app/services/session/session_service.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/ui/widgets/loader.dart';
@@ -12,10 +13,13 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store, ControllerLifeCycle {
   final UserService _userService;
+  final SessionService _sessionService;
 
-  HomeStoreBase({
-    required UserService userService,
-  }) : _userService = userService;
+  HomeStoreBase(
+      {required UserService userService,
+      required SessionService sessionService})
+      : _userService = userService,
+        _sessionService = sessionService;
 
   @readonly
   @observable
@@ -24,6 +28,14 @@ abstract class HomeStoreBase with Store, ControllerLifeCycle {
   @action
   Future<void> getUserLogged() async {
     _loggedUser = await _userService.getUser();
+  }
+
+  @action
+  Future<void> logout() async {
+    var result =
+        await _sessionService.destroyAccessTokenInSessionAndInIdentidade();
+    _sessionService.deleteCookieIdentidadeInSession();
+    var result2 = await _sessionService.logoutIdentidade();
   }
 
   @override

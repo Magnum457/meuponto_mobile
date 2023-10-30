@@ -28,7 +28,7 @@ class _HomePageState extends PageLifeCycleState<HomeStore, HomePage> {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'Olá ${store.loggedUser?.nome ?? 'Usuário'}. ',
+                  text: 'Olá, ${store.loggedUser?.nome ?? 'Usuário'}. ',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 TextSpan(
@@ -63,6 +63,9 @@ class _HomePageState extends PageLifeCycleState<HomeStore, HomePage> {
         builder: (_) => SideMenu(
           nome: store.loggedUser?.nome ?? 'Usuário',
           cpf: store.loggedUser?.cpf ?? '',
+          logout: () async {
+            await store.logout();
+          },
         ),
       ),
       backgroundColor: Colors.white,

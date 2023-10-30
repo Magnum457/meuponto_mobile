@@ -6,11 +6,13 @@ import 'package:google_fonts/google_fonts.dart';
 class SideMenu extends StatelessWidget {
   final String nome;
   final String cpf;
+  final Future<void> Function()? logout;
 
   const SideMenu({
     super.key,
     this.nome = 'nome',
     this.cpf = '11111111111',
+    this.logout,
   });
 
   @override
@@ -112,6 +114,7 @@ class SideMenu extends StatelessWidget {
                   ],
                 ),
                 onTap: () {
+                  logout!();
                   Modular.to.pushNamed('/login/');
                 },
               ),
