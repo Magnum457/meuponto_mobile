@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/side_menu.dart';

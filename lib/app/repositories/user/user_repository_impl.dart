@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:meuponto_mobile/app/models/user_model.dart';
 
 import '../../core/exceptions/failure.dart';
@@ -12,7 +10,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<String> login() async {
     try {
       return '';
-    } on Exception catch (e, s) {
+    } on Exception {
       throw const Failure(message: 'CPF ou senha inválidos.');
     }
   }
@@ -21,7 +19,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<UserModel> getUserLogged() async {
     try {
       return UserModel.fromMap(UserModel.empty().toMap());
-    } on Exception catch (e, s) {
+    } on Exception {
       throw const Failure(message: 'Erro ao buscar dados do usuário logado.');
     }
   }

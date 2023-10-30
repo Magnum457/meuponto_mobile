@@ -32,10 +32,9 @@ abstract class HomeStoreBase with Store, ControllerLifeCycle {
 
   @action
   Future<void> logout() async {
-    var result =
-        await _sessionService.destroyAccessTokenInSessionAndInIdentidade();
-    _sessionService.deleteCookieIdentidadeInSession();
-    var result2 = await _sessionService.logoutIdentidade();
+    await _sessionService.destroyAccessTokenInSessionAndInIdentidade();
+    await _sessionService.deleteCookieIdentidadeInSession();
+    await _sessionService.logoutIdentidade();
   }
 
   @override

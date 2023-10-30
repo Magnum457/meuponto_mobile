@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -68,7 +66,6 @@ abstract class LoginStoreBase with Store {
         '${Constants.urlIdentidadeAPI}/api/me',
         options: options,
       );
-      final data = response.data;
       UserModel userModel = UserModel.fromMap(response.data);
       // // Salvar os dados do usuário no local storage
       _userService.saveUser(userModel);

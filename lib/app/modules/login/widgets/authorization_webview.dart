@@ -62,7 +62,7 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
                 initialUrlRequest: URLRequest(
                     url: widget.grant.getAuthorizationUrl(widget.redirectUrl)),
                 onWebViewCreated: (controller) async {
-                  var resultLogout = await sessionService.logoutIdentidade();
+                  await sessionService.logoutIdentidade();
 
                   _webViewController = controller;
                 },
