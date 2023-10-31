@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:meuponto_mobile/app/models/token_model.dart';
+import 'token_model.dart';
 
 class UserModel {
   int? id;
