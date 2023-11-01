@@ -30,7 +30,7 @@ class OAuth2OAuthClient implements OAuthClient {
   //     'https://pauta-eletronica.apps.dtcn.detran.ce.gov.br/pauta_eletronica_app');
 
   @override
-  Future<TokenModel?> getToken() async {
+  Future<TokenModel> getToken() async {
     final grant = _generateCodeGrant();
 
     try {
@@ -46,10 +46,11 @@ class OAuth2OAuthClient implements OAuthClient {
           'refreshToken': client.credentials.refreshToken,
           'expirationTime': client.credentials.expiration,
         };
+        return TokenModel.fromMap(oauthToken);
       } else {
         throw Exception('Erro ao realizar login');
       }
-    } on Exception catch (e) {
+    } on Exception {
       throw Exception('Erro ao realizar login');
     }
   }

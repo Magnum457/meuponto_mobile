@@ -1,17 +1,21 @@
 import 'dart:convert';
 
 class TokenModel {
-  String? accessToken;
-  String? refreshToken;
-  DateTime? expirationTime;
+  final String accessToken;
+  final String refreshToken;
+  final DateTime expirationTime;
 
-  TokenModel({this.accessToken, this.refreshToken, this.expirationTime});
+  TokenModel({
+    required this.accessToken,
+    required this.refreshToken,
+    required this.expirationTime,
+  });
 
   Map<String, dynamic> toMap() {
     return {
       'accessToken': accessToken,
       'refreshToken': refreshToken,
-      'expirationTime': expirationTime,
+      'expirationTime': expirationTime.toIso8601String(),
     };
   }
 
@@ -19,16 +23,15 @@ class TokenModel {
     var token = TokenModel(
       accessToken: map['accessToken'] ?? '',
       refreshToken: map['refreshToken'] ?? '',
-      expirationTime: map['expirationTime'],
+      expirationTime: DateTime.parse(map['expirationTime']),
     );
     return token;
   }
 
   String toJson() => json.encode(toMap());
 
-  TokenModel.fromJson(Map<String, dynamic> json) {
-    accessToken = json['accessToken'];
-    refreshToken = json['refreshToken'];
-    expirationTime = json['expirationTime'];
+  factory TokenModel.fromJson(String source) {
+    var token = TokenModel.fromMap(json.decode(source));
+    return token;
   }
 }

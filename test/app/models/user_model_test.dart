@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../lib/app/models/user_model.dart';
+import 'package:meuponto_mobile/app/models/user_model.dart';
 
 void main() {
   group('UserModel Test', () {

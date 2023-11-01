@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:meuponto_mobile/app/core/oauth/oauth2/oauth2_oauth_client.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/messages.dart';
 import 'package:meuponto_mobile/app/models/user_model.dart';
 import 'package:meuponto_mobile/app/modules/login/widgets/authorization_webview.dart';
@@ -39,42 +40,52 @@ abstract class LoginStoreBase with Store {
     final redirectUrl = Uri.parse(
         'https://pauta-eletronica.apps.dtcn.detran.ce.gov.br/pauta_eletronica_app');
 
+    final oauthClient = OAuth2OAuthClient(
+      context,
+      authorizationEndpoint: authorizationEndpoint,
+      tokenEndpoint: tokenEndpoint,
+      identifier: identifier,
+      secret: secret,
+      redirectUrl: redirectUrl,
+    );
+    final token = await oauthClient.getToken();
+    debugPrint(token.toString());
     final clientSession = await _sessionService.getCredentialClientInSession();
-    if (clientSession != null) {
-      Messages.info('O usuário já está logado!!');
-      _sessionService.deleteCredentialClientInSession();
-      Modular.to.navigate('/home/');
-    } else {
-      // ignore: use_build_context_synchronously
-      final client = await createClient(
-        identifier,
-        authorizationEndpoint,
-        tokenEndpoint,
-        redirectUrl,
-        secret,
-        context,
-      );
+    // if (clientSession != null) {
+    //   Messages.info('O usuário já está logado!!');
+    //   _sessionService.deleteCredentialClientInSession();
+    //   Modular.to.navigate('/home/');
+    // } else {
+    //   // ignore: use_build_context_synchronously
+    //   final client = await createClient(
+    //     identifier,
+    //     authorizationEndpoint,
+    //     tokenEndpoint,
+    //     redirectUrl,
+    //     secret,
+    //     context,
+    //   );
 
-      // Salvando as credentials do cliente na sessão
-      _sessionService.saveCredentialClientInSession(client);
-      _userService.saveAccessToken(client.credentials.accessToken);
-      // Buscando os dados do usuário que acabou de se logar
-      Options options = Options(headers: {
-        'Authorization': 'Bearer ${client.credentials.accessToken}'
-      });
-      final response = await Dio().get(
-        '${Constants.urlIdentidadeAPI}/api/me',
-        options: options,
-      );
-      UserModel userModel = UserModel.fromMap(response.data);
-      // // Salvar os dados do usuário no local storage
-      _userService.saveUser(userModel);
-      // Redirecionando para a tela de home
-      Messages.info('Usuário logado com sucesso!!');
-      Modular.to.navigate('/home/');
+    //   // Salvando as credentials do cliente na sessão
+    //   _sessionService.saveCredentialClientInSession(client);
+    //   _userService.saveAccessToken(client.credentials.accessToken);
+    //   // Buscando os dados do usuário que acabou de se logar
+    //   Options options = Options(headers: {
+    //     'Authorization': 'Bearer ${client.credentials.accessToken}'
+    //   });
+    //   final response = await Dio().get(
+    //     '${Constants.urlIdentidadeAPI}/api/me',
+    //     options: options,
+    //   );
+    //   UserModel userModel = UserModel.fromMap(response.data);
+    //   // // Salvar os dados do usuário no local storage
+    //   _userService.saveUser(userModel);
+    //   // Redirecionando para a tela de home
+    //   Messages.info('Usuário logado com sucesso!!');
+    //   Modular.to.navigate('/home/');
 
-      debugPrint(client.credentials.accessToken);
-    }
+    //   debugPrint(client.credentials.accessToken);
+    // }
   }
 
   Future<oauth2.Client> createClient(

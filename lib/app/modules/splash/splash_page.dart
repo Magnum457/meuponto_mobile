@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:meuponto_mobile/app/modules/auth/auth_store.dart';
 import 'package:meuponto_mobile/app/core/extensions/size_screen_extension.dart';
 
 class SplashPage extends StatefulWidget {
-  final AuthStore _authStore;
-  const SplashPage({super.key, required AuthStore authStore})
-      : _authStore = authStore,
-        super();
+  const SplashPage({
+    super.key,
+  }) : super();
 
   @override
   SplashPageState createState() => SplashPageState();
@@ -21,6 +19,11 @@ class SplashPageState extends State<SplashPage> {
     _timeOut().then((_) {
       Modular.to.navigate('/login/');
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<void> _timeOut() async {

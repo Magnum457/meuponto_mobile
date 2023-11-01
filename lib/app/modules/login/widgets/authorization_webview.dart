@@ -29,6 +29,11 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
 
   bool navigatorPopHasCalled = false;
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void _onNavigationChanged(Uri? uri, InAppWebViewController controller) async {
     if (uri.toString().startsWith(widget.redirectUrl.toString())) {
       _webViewController = controller;
