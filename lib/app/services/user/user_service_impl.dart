@@ -28,17 +28,17 @@ class UserServiceImpl implements UserService {
   @override
   Future<void> saveUser(userModel) async {
     await _localStorage.write<String>(
-        Constants.LOCAL_STORAGE_USER_LOGGED_DATA_KEY, userModel.toJson());
+        Constants.localStorageUserLoggedDataKey, userModel.toJson());
   }
 
   @override
-  Future<void> saveAccessToken(String accessToken) => _localStorage.write(
-      Constants.LOCAL_STORAGE_ACCESS_TOKEN_KEY, accessToken);
+  Future<void> saveAccessToken(String accessToken) =>
+      _localStorage.write(Constants.localStorageAccessTokenKey, accessToken);
 
   @override
   Future<UserModel?> getUser() async {
     final userLoggedData = await _localStorage
-        .read<String>(Constants.LOCAL_STORAGE_USER_LOGGED_DATA_KEY);
+        .read<String>(Constants.localStorageUserLoggedDataKey);
     if (userLoggedData != null) {
       return UserModel.fromJson(userLoggedData);
     }

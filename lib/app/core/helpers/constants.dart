@@ -6,12 +6,13 @@ class Constants {
   static const restClientConnectTimeout = 30000;
   static const restClientReceiveTimeout = 30000;
 
-  static const LOCAL_STORAGE_ACCESS_TOKEN_KEY =
-      'LOCAL_STORAGE_ACCESS_TOKEN_KEY';
-  static const LOCAL_STORAGE_REFRESH_TOKEN_KEY =
+  static const localStorageAccessTokenKey = 'LOCAL_STORAGE_ACCESS_TOKEN_KEY';
+  static const localStorageRefreshTokenKey =
       '/LOCAL_STORAGE_REFRESH_TOKEN_KEY/';
-  static const LOCAL_STORAGE_USER_LOGGED_DATA_KEY =
+  static const localStorageUserLoggedDataKey =
       'LOCAL_STORAGE_USER_LOGGED_DATA_KEY';
+
+  static const restClientAuthRequiredKey = 'auth_required';
 
   static const clientSession = 'CLIENT_SESSION';
 
