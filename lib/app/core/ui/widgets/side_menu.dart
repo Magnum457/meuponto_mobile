@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../modules/core/auth/auth_store.dart';
+
 class SideMenu extends StatelessWidget {
   final String nome;
   final String cpf;
-  final Future<void> Function()? logout;
 
   const SideMenu({
     super.key,
     this.nome = 'nome',
     this.cpf = '11111111111',
-    this.logout,
   });
 
   @override
@@ -114,8 +114,8 @@ class SideMenu extends StatelessWidget {
                   ],
                 ),
                 onTap: () {
-                  logout!();
-                  Modular.to.pushNamed('/login/');
+                  Modular.get<AuthStore>().logout();
+                  Modular.to.navigate('/auth/');
                 },
               ),
             ],
