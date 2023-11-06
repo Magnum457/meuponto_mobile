@@ -1,12 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:meuponto_mobile/app/core/rest_client/dio/interceptors/auth_access_token_interceptor.dart';
 
-import '../../../core/helpers/constants.dart';
+import '../../helpers/constants.dart';
 import '../../exceptions/rest_client_exception.dart';
+
+import '../../logger/app_logger.dart';
+import '../../local_storage/local_storage.dart';
 
 import '../rest_client.dart';
 import '../rest_client_response.dart';
 
-import '../../../core/logger/app_logger.dart';
+import '../../../modules/core/auth/auth_store.dart';
 
 class DioRestClient implements RestClient {
   late final Dio _dio;
@@ -19,10 +23,28 @@ class DioRestClient implements RestClient {
   );
 
   DioRestClient({
+    required LocalStorage localStorage,
     required AppLogger log,
+    required AuthStore authStore,
     BaseOptions? options,
   }) {
     _dio = Dio(options ?? _defaultOptions);
+    _dio.interceptors.addAll([
+      AuthAccessTokenInterceptor(
+          localStorage: localStorage, authStore: authStore),
+    ]);
+  }
+
+  @override
+  RestClient auth() {
+    _defaultOptions.extra[Constants.restClientAuthRequiredKey] = true;
+    return this;
+  }
+
+  @override
+  RestClient unauth() {
+    _defaultOptions.extra[Constants.restClientAuthRequiredKey] = false;
+    return this;
   }
 
   @override

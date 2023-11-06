@@ -6,6 +6,10 @@ import '../../core/logger/app_logger_impl.dart';
 import '../../core/local_storage/local_storage.dart';
 import '../../core/local_storage/shared_preferences/shared_preferences_local_storage_impl.dart';
 import '../../core/local_storage/flutter_secure_storage/flutter_secure_storage_local_storage_impl.dart';
+
+import '../../core/rest_client/rest_client.dart';
+import '../../core/rest_client/dio/dio_rest_client.dart';
+
 import 'auth/auth_store.dart';
 
 class CoreModule extends Module {
@@ -27,5 +31,13 @@ class CoreModule extends Module {
       (i) => AuthStore(localStorage: i()),
       export: true,
     ),
+    Bind.lazySingleton<RestClient>(
+      (i) => DioRestClient(
+        localStorage: i<LocalStorage>(),
+        log: i<AppLogger>(),
+        authStore: i<AuthStore>(),
+      ),
+      export: true,
+    )
   ];
 }
