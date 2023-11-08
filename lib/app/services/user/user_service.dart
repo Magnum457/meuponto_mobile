@@ -1,9 +1,6 @@
 import 'package:meuponto_mobile/app/models/user_model.dart';
 
 abstract interface class UserService {
-  Future<void> login();
-  Future<void> saveUser(userModel);
-  Future<void> saveAccessToken(String accessToken);
-  Future<UserModel?> getUser();
-  Future<void> logout();
+  Future<void> login(String accessToken);
+  Future<UserModel?> getUserData();
 }

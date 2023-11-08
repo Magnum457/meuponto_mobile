@@ -3,6 +3,7 @@ class Constants {
 
   static const envBaseUrl =
       'https://meudetran-api-dev.apps.dtcn.detran.ce.gov.br';
+  // static const envBaseUrl = 'http://localhost:3000/meu_ponto';
   static const restClientConnectTimeout = 30000;
   static const restClientReceiveTimeout = 30000;
 

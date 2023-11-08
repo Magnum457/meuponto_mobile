@@ -16,27 +16,25 @@ class UserServiceImpl implements UserService {
         _localStorage = localStorage;
 
   @override
-  Future<void> login() async {
-    await saveAccessToken('');
+  Future<void> login(String token) async {
+    final accessToken = await _userRepository.login(token);
+    await _saveAccessToken(accessToken);
+    await _setUserData();
   }
 
-  @override
-  Future<void> logout() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> saveUser(userModel) async {
-    await _localStorage.write<String>(
-        Constants.localStorageUserLoggedDataKey, userModel.toJson());
-  }
-
-  @override
-  Future<void> saveAccessToken(String accessToken) =>
+  Future<void> _saveAccessToken(String accessToken) =>
       _localStorage.write(Constants.localStorageAccessTokenKey, accessToken);
 
+  Future<void> _setUserData() async {
+    final userModel = await _userRepository.getUserLogged();
+    await _localStorage.write<String>(
+      Constants.localStorageUserLoggedDataKey,
+      userModel.toJson(),
+    );
+  }
+
   @override
-  Future<UserModel?> getUser() async {
+  Future<UserModel?> getUserData() async {
     final userLoggedData = await _localStorage
         .read<String>(Constants.localStorageUserLoggedDataKey);
     if (userLoggedData != null) {

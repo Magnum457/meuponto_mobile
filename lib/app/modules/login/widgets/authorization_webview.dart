@@ -43,6 +43,7 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
         if (context.mounted) Navigator.of(context).pop(uri);
       }
     }
+    debugPrint('Uri diferente da url de redirecionamento');
   }
 
   @override

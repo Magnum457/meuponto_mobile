@@ -27,7 +27,7 @@ abstract class HomeStoreBase with Store, ControllerLifeCycle {
 
   @action
   Future<void> getUserLogged() async {
-    _loggedUser = await _userService.getUser();
+    _loggedUser = await _userService.getUserData();
   }
 
   @action

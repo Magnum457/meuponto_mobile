@@ -21,6 +21,13 @@ class DioRestClient implements RestClient {
     receiveTimeout:
         const Duration(milliseconds: Constants.restClientReceiveTimeout),
   );
+  final _identidadeOptions = BaseOptions(
+    baseUrl: Constants.urlIdentidadeAPI,
+    connectTimeout:
+        const Duration(milliseconds: Constants.restClientConnectTimeout),
+    receiveTimeout:
+        const Duration(milliseconds: Constants.restClientReceiveTimeout),
+  );
 
   DioRestClient({
     required LocalStorage localStorage,
@@ -45,6 +52,25 @@ class DioRestClient implements RestClient {
   RestClient unauth() {
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = false;
     return this;
+  }
+
+  @override
+  Future<RestClientResponse<T>> loginIdentidade<T>(String path,
+      {data,
+      Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? headers}) async {
+    try {
+      _dio.options = _identidadeOptions;
+      final response = await _dio.get(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(headers: headers),
+      );
+      return _dioResponseConverter(response);
+    } on DioException catch (e) {
+      throw _throwRestClientException(e);
+    }
   }
 
   @override
