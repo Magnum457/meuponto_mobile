@@ -1,24 +1,35 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:meuponto_mobile/app/modules/home/home_store.dart';
-import 'package:meuponto_mobile/app/services/session/session_service.dart';
-import 'package:meuponto_mobile/app/services/session/session_service_impl.dart';
+
+import '../../core/logger/app_logger.dart';
+import '../../core/rest_client/rest_client.dart';
 
 import '../../repositories/user/user_repository.dart';
 import '../../services/user/user_service.dart';
+
 import '../../repositories/user/user_repository_impl.dart';
 import '../../services/user/user_service_impl.dart';
+
 import 'home_page.dart';
+import 'home_store.dart';
 
 class HomeModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton<UserRepository>((i) => UserRepositoryImpl()),
+    Bind.lazySingleton<UserRepository>((i) => UserRepositoryImpl(
+          restClient: i<RestClient>(),
+          log: i<AppLogger>(),
+        )),
     Bind.lazySingleton<UserService>(
-        (i) => UserServiceImpl(userRepository: i(), localStorage: i())),
-    Bind.lazySingleton<SessionService>(
-        (i) => SessionServiceImpl(localStorage: i())),
+      (i) => UserServiceImpl(
+        userRepository: i(),
+        localStorage: i(),
+      ),
+    ),
     Bind.singleton<HomeStore>(
-        (i) => HomeStore(userService: i(), sessionService: i()))
+      (i) => HomeStore(
+        userService: i(),
+      ),
+    ),
   ];
 
   @override

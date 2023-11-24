@@ -26,7 +26,7 @@ void main() {
       final tokenMap = token.toMap();
       expect(tokenMap['accessToken'], 'accessToken');
       expect(tokenMap['refreshToken'], 'refreshToken');
-      expect(tokenMap['expirationTime'], dateExpiration.toIso8601String());
+      expect(tokenMap['expirationTime'], dateExpiration);
     });
 
     test('fromMap deve criar uma instância válida a partir de um mapa.', () {
@@ -34,7 +34,7 @@ void main() {
       final tokenMap = {
         'accessToken': 'accessToken',
         'refreshToken': 'refreshToken',
-        'expirationTime': dateExpiration.toIso8601String(),
+        'expirationTime': dateExpiration,
       };
       final token = TokenModel.fromMap(tokenMap);
       expect(token.accessToken, 'accessToken');

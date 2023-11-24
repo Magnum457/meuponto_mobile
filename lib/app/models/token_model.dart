@@ -15,7 +15,7 @@ class TokenModel {
     return {
       'accessToken': accessToken,
       'refreshToken': refreshToken,
-      'expirationTime': expirationTime.toIso8601String(),
+      'expirationTime': expirationTime,
     };
   }
 
@@ -23,15 +23,26 @@ class TokenModel {
     var token = TokenModel(
       accessToken: map['accessToken'] ?? '',
       refreshToken: map['refreshToken'] ?? '',
-      expirationTime: DateTime.parse(map['expirationTime']),
+      expirationTime: map['expirationTime'],
     );
     return token;
   }
 
-  String toJson() => json.encode(toMap());
+  String toJson() {
+    return json.encode({
+      'accessToken': accessToken,
+      'refreshToken': refreshToken,
+      'expirationTime': expirationTime.toIso8601String(),
+    });
+  }
 
   factory TokenModel.fromJson(String source) {
-    var token = TokenModel.fromMap(json.decode(source));
+    final tokenMap = json.decode(source);
+    var token = TokenModel.fromMap({
+      'accessToken': tokenMap['accessToken'],
+      'refreshToken': tokenMap['refreshToken'],
+      'expirationTime': DateTime.parse(tokenMap['expirationTime']),
+    });
     return token;
   }
 }
