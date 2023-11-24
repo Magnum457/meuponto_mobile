@@ -19,13 +19,13 @@ class UserServiceImpl implements UserService {
   Future<void> login(String token) async {
     final accessToken = await _userRepository.login(token);
     await _saveAccessToken(accessToken);
-    await _setUserData();
+    await _setUserData(accessToken);
   }
 
   Future<void> _saveAccessToken(String accessToken) =>
       _localStorage.write(Constants.localStorageAccessTokenKey, accessToken);
 
-  Future<void> _setUserData() async {
+  Future<void> _setUserData(String accessToken) async {
     final userModel = await _userRepository.getUserLogged();
     await _localStorage.write<String>(
       Constants.localStorageUserLoggedDataKey,

@@ -45,25 +45,25 @@ class DioRestClient implements RestClient {
   @override
   RestClient auth() {
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = true;
+    _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = true;
     return this;
   }
 
   @override
   RestClient unauth() {
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = false;
+    _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = false;
     return this;
   }
 
   @override
-  Future<RestClientResponse<T>> loginIdentidade<T>(String path,
-      {data,
-      Map<String, dynamic>? queryParameters,
+  Future<RestClientResponse<T>> userData<T>(String path,
+      {Map<String, dynamic>? queryParameters,
       Map<String, dynamic>? headers}) async {
     try {
       _dio.options = _identidadeOptions;
       final response = await _dio.get(
         path,
-        data: data,
         queryParameters: queryParameters,
         options: Options(headers: headers),
       );

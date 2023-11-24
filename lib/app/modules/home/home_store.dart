@@ -13,13 +13,9 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store, ControllerLifeCycle {
   final UserService _userService;
-  final SessionService _sessionService;
 
-  HomeStoreBase(
-      {required UserService userService,
-      required SessionService sessionService})
-      : _userService = userService,
-        _sessionService = sessionService;
+  HomeStoreBase({required UserService userService})
+      : _userService = userService;
 
   @readonly
   @observable
@@ -28,13 +24,6 @@ abstract class HomeStoreBase with Store, ControllerLifeCycle {
   @action
   Future<void> getUserLogged() async {
     _loggedUser = await _userService.getUserData();
-  }
-
-  @action
-  Future<void> logout() async {
-    await _sessionService.destroyAccessTokenInSessionAndInIdentidade();
-    await _sessionService.deleteCookieIdentidadeInSession();
-    await _sessionService.logoutIdentidade();
   }
 
   @override

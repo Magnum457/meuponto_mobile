@@ -4,9 +4,8 @@ abstract class RestClient {
   RestClient auth();
   RestClient unauth();
 
-  Future<RestClientResponse<T>> loginIdentidade<T>(
+  Future<RestClientResponse<T>> userData<T>(
     String path, {
-    dynamic data,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   });

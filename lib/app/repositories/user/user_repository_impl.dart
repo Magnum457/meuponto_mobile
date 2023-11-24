@@ -34,8 +34,8 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<UserModel> getUserLogged() async {
     try {
-      final result = await _restClient.auth().loginIdentidade('/api/me');
-      return UserModel.fromMap(result.data['result']);
+      final result = await _restClient.auth().userData('/api/me');
+      return UserModel.fromMap(result.data);
     } on RestClientException catch (e, s) {
       if (e.response.statusCode == 422) {
         throw Failure(message: e.response.data['message']);

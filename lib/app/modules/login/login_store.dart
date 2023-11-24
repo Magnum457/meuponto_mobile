@@ -11,7 +11,6 @@ import '../../core/ui/widgets/messages.dart';
 
 import '../../core/logger/app_logger.dart';
 import '../../services/user/user_service.dart';
-import '../../services/session/session_service.dart';
 
 part 'login_store.g.dart';
 

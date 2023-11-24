@@ -35,14 +35,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return _$getUserLoggedAsyncAction.run(() => super.getUserLogged());
   }
 
-  late final _$logoutAsyncAction =
-      AsyncAction('HomeStoreBase.logout', context: context);
-
-  @override
-  Future<void> logout() {
-    return _$logoutAsyncAction.run(() => super.logout());
-  }
-
   @override
   String toString() {
     return '''

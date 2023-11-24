@@ -115,7 +115,6 @@ class SideMenu extends StatelessWidget {
                 ),
                 onTap: () {
                   Modular.get<AuthStore>().logout();
-                  Modular.to.navigate('/auth/');
                 },
               ),
             ],

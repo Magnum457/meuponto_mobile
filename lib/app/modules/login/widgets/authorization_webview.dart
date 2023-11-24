@@ -21,8 +21,10 @@ class AuthorizationWebView extends StatefulWidget {
 
 class _AuthorizationWebViewState extends State<AuthorizationWebView> {
   final GlobalKey webViewKey = GlobalKey();
+
+  InAppWebViewController? _webViewController;
+
   final ValueNotifier<double> _progress = ValueNotifier<double>(0.0);
-  late InAppWebViewController _webViewController;
   CookieManager cookieManager = CookieManager.instance();
   final sessionService =
       SessionServiceImpl(localStorage: SharedPreferencesLocalStorageImpl());
@@ -34,10 +36,9 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
     super.dispose();
   }
 
-  void _onNavigationChanged(Uri? uri, InAppWebViewController controller) async {
+  void _onNavigationChanged(Uri? uri) async {
     if (uri.toString().startsWith(widget.redirectUrl.toString())) {
-      _webViewController = controller;
-      await _webViewController.stopLoading();
+      await _webViewController?.stopLoading();
       if (!navigatorPopHasCalled) {
         navigatorPopHasCalled = true;
         if (context.mounted) Navigator.of(context).pop(uri);
@@ -48,56 +49,46 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        var isLastPage = await _webViewController.canGoBack();
-
-        if (isLastPage) {
-          await _webViewController.goBack();
-          return false;
-        }
-
-        return true;
-      },
-      child: SafeArea(
-        child: Scaffold(
-          body: Stack(
-            children: [
-              InAppWebView(
-                key: webViewKey,
-                initialUrlRequest: URLRequest(
-                    url: widget.grant.getAuthorizationUrl(widget.redirectUrl)),
-                onWebViewCreated: (controller) async {
-                  await sessionService.logoutIdentidade();
-
-                  _webViewController = controller;
-                },
-                onProgressChanged: (controller, progress) {
-                  _progress.value = progress / 100;
-                },
-                onLoadStop: (controller, url) async {
-                  final identidadeCookie = await cookieManager.getCookie(
-                      url: url!, name: '_identidade_session');
-                  if (identidadeCookie != null) {
-                    await sessionService
-                        .saveCookieIdentidadeInSession(identidadeCookie.value);
-                  }
-                  _onNavigationChanged(url, controller);
-                },
-                onLoadError: (controller, url, error, string) {
-                  Navigator.pop(context);
-                },
+    return Scaffold(
+      body: Stack(
+        children: [
+          InAppWebView(
+            key: webViewKey,
+            initialUrlRequest: URLRequest(
+              url: widget.grant.getAuthorizationUrl(
+                widget.redirectUrl,
               ),
-              _progress.value < 1
-                  ? ValueListenableBuilder(
-                      valueListenable: _progress,
-                      builder: (_, value, __) {
-                        return LinearProgressIndicator(value: value);
-                      })
-                  : const SizedBox(),
-            ],
+            ),
+            onWebViewCreated: (controller) async {
+              await sessionService.closeSession();
+
+              _webViewController = controller;
+            },
+            onProgressChanged: (controller, progress) {
+              _progress.value = progress / 100;
+            },
+            onLoadStop: (controller, url) async {
+              final identidadeCookie = await cookieManager.getCookie(
+                url: url!,
+                name: '_identidade_session',
+              );
+              if (identidadeCookie != null) {
+                await sessionService.initializeSession(identidadeCookie.value);
+              }
+              _onNavigationChanged(url);
+            },
+            onLoadError: (controller, url, error, string) {
+              Navigator.pop(context);
+            },
           ),
-        ),
+          _progress.value < 1
+              ? ValueListenableBuilder(
+                  valueListenable: _progress,
+                  builder: (_, value, __) {
+                    return LinearProgressIndicator(value: value);
+                  })
+              : const SizedBox(),
+        ],
       ),
     );
   }

@@ -33,7 +33,7 @@ class AuthAccessTokenInterceptor extends Interceptor {
           type: DioExceptionType.cancel,
         ));
       }
-      options.headers['Authorization'] = accessToken;
+      options.headers['Authorization'] = "Bearer $accessToken";
     } else {
       options.headers.remove('Authorization');
     }
