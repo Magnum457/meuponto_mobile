@@ -3,7 +3,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../core/logger/app_logger.dart';
 import '../../core/local_storage/local_storage.dart';
 import '../../core/rest_client/rest_client.dart';
-import '../../services/session/session_service.dart';
 
 import '../../repositories/user/user_repository.dart';
 import '../../services/user/user_service.dart';

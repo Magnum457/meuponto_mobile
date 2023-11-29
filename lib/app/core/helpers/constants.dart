@@ -1,11 +1,10 @@
 class Constants {
   Constants._();
 
-  static const envBaseUrl =
-      'https://meudetran-api-dev.apps.dtcn.detran.ce.gov.br';
+  static const envBaseUrl = 'http://localhost:3000/meu_ponto/api';
   // static const envBaseUrl = 'http://localhost:3000/meu_ponto';
-  static const restClientConnectTimeout = 30000;
-  static const restClientReceiveTimeout = 30000;
+  static const restClientConnectTimeout = 90000;
+  static const restClientReceiveTimeout = 90000;
 
   static const localStorageAccessTokenKey = 'LOCAL_STORAGE_ACCESS_TOKEN_KEY';
   static const localStorageRefreshTokenKey = 'LOCAL_STORAGE_REFRESH_TOKEN_KEY';

@@ -1,29 +1,27 @@
 import 'dart:convert';
 
+import 'day_record_model.dart';
 import 'token_model.dart';
 
 class UserModel {
-  int? id;
   String? nome;
   String? cpf;
   TokenModel? token;
+  List<DayRecordModel>? dayRecord;
 
   UserModel({
-    this.id,
     this.nome,
     this.cpf,
     this.token,
   });
 
   UserModel.empty()
-      : id = 0,
-        nome = '',
+      : nome = '',
         cpf = '',
         token = null;
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'nome': nome,
       'cpf': cpf,
       'token': token,
@@ -32,7 +30,6 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     var user = UserModel(
-      id: map['id'] ?? 0,
       nome: map['nome'] ?? '',
       cpf: map['cpf'] ?? '',
       token: map['token'],

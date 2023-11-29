@@ -27,12 +27,38 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$_servicosAtom =
+      Atom(name: 'HomeStoreBase._servicos', context: context);
+
+  List<ServiceModel> get servicos {
+    _$_servicosAtom.reportRead();
+    return super._servicos;
+  }
+
+  @override
+  List<ServiceModel> get _servicos => servicos;
+
+  @override
+  set _servicos(List<ServiceModel> value) {
+    _$_servicosAtom.reportWrite(value, super._servicos, () {
+      super._servicos = value;
+    });
+  }
+
   late final _$getUserLoggedAsyncAction =
       AsyncAction('HomeStoreBase.getUserLogged', context: context);
 
   @override
   Future<void> getUserLogged() {
     return _$getUserLoggedAsyncAction.run(() => super.getUserLogged());
+  }
+
+  late final _$getServicesAsyncAction =
+      AsyncAction('HomeStoreBase.getServices', context: context);
+
+  @override
+  Future<void> getServices() {
+    return _$getServicesAsyncAction.run(() => super.getServices());
   }
 
   @override
