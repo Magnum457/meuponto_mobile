@@ -27,39 +27,21 @@ mixin _$DayRecordStore on DayRecordStoreBase, Store {
     });
   }
 
-  late final _$_dayRecordModelsAtom =
-      Atom(name: 'DayRecordStoreBase._dayRecordModels', context: context);
+  late final _$_dayRecordsAtom =
+      Atom(name: 'DayRecordStoreBase._dayRecords', context: context);
 
-  List<DayRecordModel>? get dayRecordModels {
-    _$_dayRecordModelsAtom.reportRead();
-    return super._dayRecordModels;
+  List<DayRecordModel> get dayRecords {
+    _$_dayRecordsAtom.reportRead();
+    return super._dayRecords;
   }
 
   @override
-  List<DayRecordModel>? get _dayRecordModels => dayRecordModels;
+  List<DayRecordModel> get _dayRecords => dayRecords;
 
   @override
-  set _dayRecordModels(List<DayRecordModel>? value) {
-    _$_dayRecordModelsAtom.reportWrite(value, super._dayRecordModels, () {
-      super._dayRecordModels = value;
-    });
-  }
-
-  late final _$_dayRecordModelAtom =
-      Atom(name: 'DayRecordStoreBase._dayRecordModel', context: context);
-
-  DayRecordModel? get dayRecordModel {
-    _$_dayRecordModelAtom.reportRead();
-    return super._dayRecordModel;
-  }
-
-  @override
-  DayRecordModel? get _dayRecordModel => dayRecordModel;
-
-  @override
-  set _dayRecordModel(DayRecordModel? value) {
-    _$_dayRecordModelAtom.reportWrite(value, super._dayRecordModel, () {
-      super._dayRecordModel = value;
+  set _dayRecords(List<DayRecordModel> value) {
+    _$_dayRecordsAtom.reportWrite(value, super._dayRecords, () {
+      super._dayRecords = value;
     });
   }
 
@@ -77,14 +59,6 @@ mixin _$DayRecordStore on DayRecordStoreBase, Store {
   @override
   Future<void> getDayRecords() {
     return _$getDayRecordsAsyncAction.run(() => super.getDayRecords());
-  }
-
-  late final _$getDayRecordAsyncAction =
-      AsyncAction('DayRecordStoreBase.getDayRecord', context: context);
-
-  @override
-  Future<void> getDayRecord(int dayRecordId) {
-    return _$getDayRecordAsyncAction.run(() => super.getDayRecord(dayRecordId));
   }
 
   @override

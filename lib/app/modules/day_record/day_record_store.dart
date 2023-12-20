@@ -29,9 +29,7 @@ abstract class DayRecordStoreBase with Store, ControllerLifeCycle {
   @readonly
   UserModel? _loggedUser;
   @readonly
-  List<DayRecordModel>? _dayRecordModels;
-  @readonly
-  DayRecordModel? _dayRecordModel;
+  var _dayRecords = const <DayRecordModel>[];
 
   @override
   void onInit([Map<String, dynamic>? params]) {}
@@ -60,21 +58,9 @@ abstract class DayRecordStoreBase with Store, ControllerLifeCycle {
     try {
       await getUserLogged();
       var cpf = _loggedUser!.cpf;
-      _dayRecordModels = await _dayRecordService.getDayRecords(cpf!);
+      _dayRecords = await _dayRecordService.getDayRecords(cpf!);
     } on Failure catch (e) {
       final errorMessage = e.message ?? 'Erro ao recuperar os dados do ponto.';
-
-      Messages.alert(errorMessage);
-    }
-  }
-
-  @action
-  Future<void> getDayRecord(int dayRecordId) async {
-    try {
-      _dayRecordModel = await _dayRecordService.getDayRecord(dayRecordId);
-    } on Failure catch (e) {
-      final errorMessage =
-          e.message ?? 'Erro ao recuperar os dados específico desse ponto.';
 
       Messages.alert(errorMessage);
     }

@@ -1,8 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:meuponto_mobile/app/core/local_storage/local_storage.dart';
 
 import '../../core/logger/app_logger.dart';
 import '../../core/rest_client/rest_client.dart';
+import '../../core/local_storage/local_storage.dart';
 
 import '../../repositories/day_record/day_record_repository.dart';
 import '../../repositories/user/user_repository.dart';
@@ -16,6 +16,7 @@ import '../../services/user/user_service.dart';
 import '../../services/day_record/day_record_service_impl.dart';
 import '../../services/user/user_service_impl.dart';
 
+import 'day_record_detail/day_record_detail_module.dart';
 import 'day_record_page.dart';
 import 'day_record_store.dart';
 
@@ -32,10 +33,12 @@ class DayRecordModule extends Module {
         localStorage: i<LocalStorage>(),
       ),
     ),
-    Bind.lazySingleton<DayRecordRepository>((i) => DayRecordRepositoryImpl(
-          restClient: i<RestClient>(),
-          log: i<AppLogger>(),
-        )),
+    Bind.lazySingleton<DayRecordRepository>(
+      (i) => DayRecordRepositoryImpl(
+        restClient: i<RestClient>(),
+        log: i<AppLogger>(),
+      ),
+    ),
     Bind.lazySingleton<DayRecordService>(
       (i) => DayRecordServiceImpl(
         dayRecordRepository: i<DayRecordRepository>(),
@@ -54,6 +57,10 @@ class DayRecordModule extends Module {
     ChildRoute(
       '/',
       child: (_, args) => const DayRecordPage(),
+    ),
+    ModuleRoute(
+      '/day_record_detail',
+      module: DayRecordDetailModule(),
     ),
   ];
 }

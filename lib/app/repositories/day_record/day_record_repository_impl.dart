@@ -38,10 +38,10 @@ class DayRecordRepositoryImpl implements DayRecordRepository {
   @override
   Future<DayRecordModel> getDayRecord(int dayRecordId) async {
     try {
-      final result = await _restClient.auth().post('/get_day_record/', data: {
-        'day_record': {'id': dayRecordId}
-      });
-      return DayRecordModel.fromMap(result.data['result']);
+      final result = await _restClient
+          .auth()
+          .post('/get_day_record/', data: {'id': dayRecordId});
+      return DayRecordModel.fromMap(result.data);
     } on RestClientException catch (e, s) {
       if (e.response.statusCode == 422) {
         throw Failure(message: e.response.data['message']);
