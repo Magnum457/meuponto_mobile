@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
 import 'package:meuponto_mobile/app/core/ui/widgets/side_menu.dart';
-import 'package:meuponto_mobile/app/modules/home/widgets/servico_dialog_widget.dart';
-import 'package:meuponto_mobile/app/modules/home/home_store.dart';
+
+import './widgets/servico_dialog_widget.dart';
+
+import 'home_store.dart';
 
 import '../../core/life_cycle/page_life_cicle_state.dart';
 
@@ -86,26 +90,34 @@ class _HomePageState extends PageLifeCycleState<HomeStore, HomePage> {
               ),
               const SizedBox(height: 20),
               Expanded(
-                child: GridView.builder(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
+                child: Observer(
+                  builder: (_) => GridView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 60,
+                      mainAxisSpacing: 20,
+                    ),
+                    itemCount: store.servicos.length,
+                    itemBuilder: (context, index) {
+                      var servicos = store.servicos.toList();
+                      var servico = servicos[index];
+                      return ServicoDialogWidget(
+                        onTap: () {
+                          servico.emBreve ?? false
+                              ? null
+                              : Modular.to.pushNamed(servico.link!);
+                        },
+                        descricao: servico.descricao!,
+                        emBreve: servico.emBreve!,
+                        icone: servico.icon!,
+                      );
+                    },
                   ),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 60,
-                    mainAxisSpacing: 20,
-                  ),
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return ServicoDialogWidget(
-                      onTap: () {
-                        debugPrint('Serviço');
-                      },
-                      descricao: 'Atualizar contato',
-                      emBreve: true,
-                    );
-                  },
                 ),
               ),
             ],

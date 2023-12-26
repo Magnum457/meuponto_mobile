@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension ThemeExtension on BuildContext {
-  Color get cinzaVerdeEscuro => const Color.fromARGB(255, 109, 127, 136);
+  Color get cinzaVerdeEscuro => const Color.fromARGB(255, 97, 139, 119);
   Color get verdeTitulo => const Color.fromARGB(255, 106, 193, 145);
   Color get verdeTituloClaro => const Color.fromARGB(255, 64, 185, 140);
   Color get verdeCinzaCard => const Color.fromARGB(255, 193, 211, 194);

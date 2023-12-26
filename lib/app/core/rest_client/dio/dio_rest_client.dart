@@ -44,6 +44,7 @@ class DioRestClient implements RestClient {
 
   @override
   RestClient auth() {
+    _dio.options = _defaultOptions;
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = true;
     _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = true;
     return this;
@@ -57,20 +58,9 @@ class DioRestClient implements RestClient {
   }
 
   @override
-  Future<RestClientResponse<T>> userData<T>(String path,
-      {Map<String, dynamic>? queryParameters,
-      Map<String, dynamic>? headers}) async {
-    try {
-      _dio.options = _identidadeOptions;
-      final response = await _dio.get(
-        path,
-        queryParameters: queryParameters,
-        options: Options(headers: headers),
-      );
-      return _dioResponseConverter(response);
-    } on DioException catch (e) {
-      throw _throwRestClientException(e);
-    }
+  RestClient identidadeRequest() {
+    _dio.options = _identidadeOptions;
+    return this;
   }
 
   @override
