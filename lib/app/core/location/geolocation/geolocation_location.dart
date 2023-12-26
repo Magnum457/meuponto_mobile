@@ -1,8 +1,9 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:meuponto_mobile/app/core/location/locator_response.dart';
-import 'package:meuponto_mobile/app/core/ui/widgets/messages.dart';
 
+import '../../../core/ui/widgets/messages.dart';
+
+import '../locator_response.dart';
 import '../locator.dart';
 
 class GeolocationLocator implements Locator {
