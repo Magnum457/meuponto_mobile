@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
-import 'package:meuponto_mobile/app/core/ui/widgets/custom_app_bar.dart';
+
+import '../../core/extensions/theme_extension.dart';
+
+import '../../core/ui/widgets/custom_app_bar.dart';
 
 class PolicyPage extends StatelessWidget {
   const PolicyPage({super.key});

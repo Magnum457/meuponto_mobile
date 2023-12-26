@@ -48,6 +48,11 @@ dependencies:
   logger: ^2.0.2+1
   oauth2: ^2.0.2
   flutter_inappwebview: ^5.8.0
+  material_design_icons_flutter: 7.0.7296
+  geolocator: ^10.1.0
+  geocoding:
+  permission_handler: ^11.0.1
+  network_info_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +67,7 @@ dev_dependencies:
   mobx_codegen: ^2.4.0
   build_runner: ^2.4.6
   modular_test: ^2.0.0
+  collection:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

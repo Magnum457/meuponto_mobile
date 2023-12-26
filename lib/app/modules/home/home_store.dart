@@ -1,9 +1,12 @@
-import 'package:meuponto_mobile/app/core/life_cycle/controller_life_cycle.dart';
-import 'package:meuponto_mobile/app/services/session/session_service.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../core/life_cycle/controller_life_cycle.dart';
+
 import '../../core/ui/widgets/loader.dart';
+import '../../core/ui/widgets/messages.dart';
+
 import '../../models/user_model.dart';
+import '../../models/service_model.dart';
 
 import '../../services/user/user_service.dart';
 
@@ -21,6 +24,9 @@ abstract class HomeStoreBase with Store, ControllerLifeCycle {
   @observable
   UserModel? _loggedUser;
 
+  @readonly
+  List<ServiceModel> _servicos = [];
+
   @action
   Future<void> getUserLogged() async {
     _loggedUser = await _userService.getUserData();
@@ -30,9 +36,22 @@ abstract class HomeStoreBase with Store, ControllerLifeCycle {
   void onInit([Map<String, dynamic>? params]) {}
 
   @override
-  void onReady() {
+  void onReady() async {
     Loader.show();
     getUserLogged();
+    await getServices();
     Loader.hide();
+  }
+
+  @action
+  Future<void> getServices() async {
+    try {
+      final services = ServiceModel.getServiceModels();
+      _servicos = [...services];
+    } catch (e, s) {
+      Messages.alert('Erro ao carregar Serviços');
+
+      Error.throwWithStackTrace(e, s);
+    }
   }
 }

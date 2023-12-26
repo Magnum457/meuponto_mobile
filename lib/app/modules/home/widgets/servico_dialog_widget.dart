@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:meuponto_mobile/app/core/extensions/theme_extension.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import '../../../core/extensions/theme_extension.dart';
 
 class ServicoDialogWidget extends StatelessWidget {
   final bool emBreve;
   final String descricao;
+  final String icone;
   final Function()? onTap;
 
   const ServicoDialogWidget({
     super.key,
     this.descricao = '-',
+    this.icone = '-',
     this.emBreve = false,
     this.onTap,
   });
@@ -45,10 +49,12 @@ class ServicoDialogWidget extends StatelessWidget {
                           padding: EdgeInsets.only(
                               top: constraints.maxHeight *
                                   0.05), // 1/20 do card total
-                          child: Image.asset(
-                            'assets/icons/indicacao.png',
-                            width: constraints.maxWidth * 0.5,
-                            height: constraints.maxHeight * 0.5,
+                          child: Icon(
+                            MdiIcons.fromString(icone),
+                            size: constraints.maxWidth * 0.5,
+                            color: emBreve
+                                ? context.cinzaVerdeEscuro.withOpacity(0.5)
+                                : context.cinzaVerdeEscuro,
                           ),
                         ),
                       ),
