@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/logger/app_logger.dart';
 import '../../core/life_cycle/controller_life_cycle.dart';
@@ -42,4 +43,7 @@ abstract class TimeRecordStoreBase with Store, ControllerLifeCycle {
       _timeRecords = [];
     } finally {}
   }
+
+  @action
+  listenPosition() async {}
 }

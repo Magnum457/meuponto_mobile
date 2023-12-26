@@ -35,6 +35,14 @@ mixin _$TimeRecordStore on TimeRecordStoreBase, Store {
     return _$getTimeRecordsAsyncAction.run(() => super.getTimeRecords());
   }
 
+  late final _$listenPositionAsyncAction =
+      AsyncAction('TimeRecordStoreBase.listenPosition', context: context);
+
+  @override
+  Future listenPosition() {
+    return _$listenPositionAsyncAction.run(() => super.listenPosition());
+  }
+
   @override
   String toString() {
     return '''

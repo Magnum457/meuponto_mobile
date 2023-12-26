@@ -49,6 +49,10 @@ dependencies:
   oauth2: ^2.0.2
   flutter_inappwebview: ^5.8.0
   material_design_icons_flutter: 7.0.7296
+  geolocator: ^10.1.0
+  geocoding:
+  permission_handler: ^11.0.1
+  network_info_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:
