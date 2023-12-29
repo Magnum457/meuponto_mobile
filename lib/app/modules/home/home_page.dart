@@ -112,9 +112,9 @@ class _HomePageState extends PageLifeCycleState<HomeStore, HomePage> {
                               ? null
                               : Modular.to.pushNamed(servico.link!);
                         },
-                        descricao: servico.descricao!,
+                        descricao: servico.descricao,
                         emBreve: servico.emBreve!,
-                        icone: servico.icon!,
+                        icone: servico.icon,
                       );
                     },
                   ),

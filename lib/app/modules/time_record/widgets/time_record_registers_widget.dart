@@ -19,15 +19,40 @@ class _TimeRecordRegistersWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Center(
-            child: Text(
-              'Nenhum Registro de Ponto no Dia',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.roboto(
-                color: const Color(0xFF405965),
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: store.timeRecords.isNotEmpty
+                ? GridView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 60,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 4,
+                    ),
+                    itemCount: store.timeRecords.length,
+                    itemBuilder: (context, index) {
+                      var timeRecords = store.timeRecords.toList();
+                      var timeRecord = timeRecords[index + 1];
+                      return Column(
+                        children: [
+                          Text(timeRecord.registerType.descricao),
+                          Text(timeRecord.time!.hour.toString()),
+                        ],
+                      );
+                    },
+                  )
+                : Text(
+                    'Nenhum Registro de Ponto no Dia',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.roboto(
+                      color: const Color(0xFF405965),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
           ),
         ),
       ),

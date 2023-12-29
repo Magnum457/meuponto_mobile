@@ -23,10 +23,12 @@ import 'day_record_store.dart';
 class DayRecordModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton<UserRepository>((i) => UserRepositoryImpl(
-          restClient: i<RestClient>(),
-          log: i<AppLogger>(),
-        )),
+    Bind.lazySingleton<UserRepository>(
+      (i) => UserRepositoryImpl(
+        restClient: i<RestClient>(),
+        log: i<AppLogger>(),
+      ),
+    ),
     Bind.lazySingleton<UserService>(
       (i) => UserServiceImpl(
         userRepository: i<UserRepository>(),

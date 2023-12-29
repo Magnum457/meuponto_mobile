@@ -24,8 +24,25 @@ class TimeRecordRepositoryImpl implements TimeRecordRepository {
       final result = await _restClient.auth().post('/get_time_records', data: {
         'day_record': {'id': dayRecordId}
       });
-      var resultV = result.data['result']
-          ?.map<TimeRecordModel>((v) => TimeRecordModel.fromMap(v));
+      var resultV = result.data
+          ?.map<TimeRecordModel>((v) => TimeRecordModel.fromMap(v))
+          .toList();
+      return resultV ?? [];
+    } on RestClientException catch (e, s) {
+      _logger.error('Erro ao buscar os registros do ponto', e, s);
+      throw const Failure(message: 'Erro ao buscar os registros do ponto.');
+    }
+  }
+
+  @override
+  Future<List<TimeRecordModel>> getTimeRecordsFromCurrentDay(String cpf) async {
+    try {
+      final result = await _restClient
+          .auth()
+          .post('/get_time_records_from_current_day', data: {'cpf': cpf});
+      var resultV = result.data
+          ?.map<TimeRecordModel>((v) => TimeRecordModel.fromMap(v))
+          .toList();
       return resultV ?? [];
     } on RestClientException catch (e, s) {
       _logger.error('Erro ao buscar os registros do ponto', e, s);
@@ -39,7 +56,7 @@ class TimeRecordRepositoryImpl implements TimeRecordRepository {
       final result = await _restClient.auth().post('/get_time_record', data: {
         'time_record': {'id': timeRecordId}
       });
-      return TimeRecordModel.fromMap(result.data['result']);
+      return TimeRecordModel.fromMap(result.data);
     } on RestClientException catch (e, s) {
       _logger.error('Erro ao buscar os detalhes do registro desse ponto', e, s);
       throw const Failure(
@@ -51,7 +68,12 @@ class TimeRecordRepositoryImpl implements TimeRecordRepository {
   Future<void> createTimeRecord(TimeRecordModel timeRecordModel) async {
     try {
       await _restClient.auth().post('/create_time_record', data: {
-        'time_record': timeRecordModel,
+        'time_record': {
+          'ip': timeRecordModel.ip,
+          'register_type_id': timeRecordModel.registerType.id,
+          'latitude': timeRecordModel.latitude,
+          'longitude': timeRecordModel.longitude,
+        },
       });
     } on RestClientException catch (e, s) {
       _logger.error('Erro no registro do ponto.', e, s);

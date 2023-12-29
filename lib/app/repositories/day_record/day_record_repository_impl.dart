@@ -24,6 +24,7 @@ class DayRecordRepositoryImpl implements DayRecordRepository {
       final result = await _restClient
           .auth()
           .post('/get_day_records/', data: {'cpf': cpf});
+      var resultData = result.data;
       var resultV = result.data
           ?.map<DayRecordModel>((v) => DayRecordModel.fromMap(v))
           .toList();

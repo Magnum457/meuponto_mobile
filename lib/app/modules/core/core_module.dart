@@ -3,6 +3,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../core/logger/app_logger.dart';
 import '../../core/logger/app_logger_impl.dart';
 
+import '../../core/ip_handler/ip_handler.dart';
+import '../../core/ip_handler/network_info/network_info_ip_handler.dart';
+
+import '../../core/location/locator.dart';
+import '../../core/location/geolocation/geolocation_location.dart';
+
 import '../../core/local_storage/local_storage.dart';
 import '../../core/local_storage/shared_preferences/shared_preferences_local_storage_impl.dart';
 import '../../core/local_storage/flutter_secure_storage/flutter_secure_storage_local_storage_impl.dart';
@@ -20,6 +26,14 @@ class CoreModule extends Module {
   final List<Bind> binds = [
     Bind.lazySingleton<AppLogger>(
       (_) => AppLoggerImp(),
+      export: true,
+    ),
+    Bind.lazySingleton<IpHandler>(
+      (i) => NetworkInfoIpHandler(),
+      export: true,
+    ),
+    Bind.lazySingleton<Locator>(
+      (i) => GeolocationLocator(),
       export: true,
     ),
     Bind.lazySingleton<LocalStorage>(

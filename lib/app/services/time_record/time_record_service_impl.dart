@@ -15,6 +15,10 @@ class TimeRecordServiceImpl implements TimeRecordService {
       _timeRecordRepository.getTimeRecords(dayRecordId);
 
   @override
+  Future<List<TimeRecordModel>> getTimeRecordsFromCurrentDay(String cpf) =>
+      _timeRecordRepository.getTimeRecordsFromCurrentDay(cpf);
+
+  @override
   Future<TimeRecordModel> getTimeRecord(int timeRecordId) =>
       _timeRecordRepository.getTimeRecord(timeRecordId);
 

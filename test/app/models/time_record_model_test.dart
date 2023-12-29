@@ -16,6 +16,7 @@ void main() {
         ip: '172.25.137.31',
         latitude: '-0.3456',
         longitude: '0.6543',
+        address: 'Rua dos Bobos, N° 0',
         registerType: registerType,
       );
 
@@ -23,6 +24,7 @@ void main() {
       expect(timeRecord.ip, '172.25.137.31');
       expect(timeRecord.latitude, '-0.3456');
       expect(timeRecord.longitude, '0.6543');
+      expect(timeRecord.address, 'Rua dos Bobos, N° 0');
       expect(timeRecord.time, isNotNull);
       expect(timeRecord.registerType, registerType);
     });
@@ -33,6 +35,7 @@ void main() {
         ip: '172.25.137.31',
         latitude: '-0.3456',
         longitude: '0.6543',
+        address: 'Rua dos Bobos, N° 0',
         registerType: registerType,
       );
       final timeRecordMap = timeRecord.toMap();
@@ -42,6 +45,7 @@ void main() {
       expect(timeRecordMap['time'], isNotNull);
       expect(timeRecordMap['latitude'], '-0.3456');
       expect(timeRecordMap['longitude'], '0.6543');
+      expect(timeRecordMap['address'], 'Rua dos Bobos, N° 0');
       expect(timeRecordMap['register_type'], timeRecord.registerType);
     });
 
@@ -52,7 +56,8 @@ void main() {
         'time': DateTime.now().toIso8601String(),
         'latitude': '-0.3456',
         'longitude': '0.6543',
-        'register_type': registerType,
+        'address': 'Rua dos Bobos, N° 0',
+        'register_type': registerType.toMap(),
       };
       final timeRecord = TimeRecordModel.fromMap(timeRecordMap);
 
@@ -61,7 +66,8 @@ void main() {
       expect(timeRecord.time, DateTime.parse(timeRecordMap['time'] as String));
       expect(timeRecord.latitude, timeRecordMap['latitude']);
       expect(timeRecord.longitude, timeRecordMap['longitude']);
-      expect(timeRecord.registerType, timeRecordMap['register_type']);
+      expect(timeRecord.address, timeRecordMap['address']);
+      expect(timeRecord.registerType, registerType);
     });
 
     test(
@@ -72,6 +78,7 @@ void main() {
         ip: '172.25.137.31',
         latitude: '-0.3456',
         longitude: '0.6543',
+        address: 'Rua dos Bobos, N° 0',
         registerType: registerType,
       );
       final timeRecordJson = timeRecord.toJson(timeRecord);
@@ -81,6 +88,7 @@ void main() {
       expect(newTimeRecord.time, timeRecord.time);
       expect(newTimeRecord.latitude, timeRecord.latitude);
       expect(newTimeRecord.longitude, timeRecord.longitude);
+      expect(newTimeRecord.address, timeRecord.address);
       expect(newTimeRecord.registerType, equals(timeRecord.registerType));
     });
   });

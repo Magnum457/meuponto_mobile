@@ -22,7 +22,7 @@ class GeolocationLocator implements Locator {
   Future<bool> _handleLocationPermission() async {
     LocationPermission permission;
 
-    if (await _handleServiceLocation()) {
+    if (!(await _handleServiceLocation())) {
       return false;
     }
 

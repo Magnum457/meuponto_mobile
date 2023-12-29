@@ -3,19 +3,21 @@ import 'dart:convert';
 import '../models/register_type_model.dart';
 
 class TimeRecordModel {
-  int id;
+  int? id;
   DateTime? time;
   String ip;
   String latitude;
   String longitude;
+  String? address;
   RegisterTypeModel registerType;
 
   TimeRecordModel({
-    required this.id,
+    this.id,
     this.time,
     required this.ip,
     required this.latitude,
     required this.longitude,
+    this.address,
     required this.registerType,
   }) {
     time = time ?? DateTime.now();
@@ -28,6 +30,7 @@ class TimeRecordModel {
       'ip': ip,
       'latitude': latitude,
       'longitude': longitude,
+      'address': address,
       'register_type': registerType,
     };
   }
@@ -39,6 +42,7 @@ class TimeRecordModel {
       ip: map['ip'] ?? '',
       latitude: map['latitude'] ?? '',
       longitude: map['longitude'] ?? '',
+      address: map['address'] ?? '',
       registerType: RegisterTypeModel.fromMap(map['register_type']),
     );
     return timeRecord;
@@ -51,6 +55,7 @@ class TimeRecordModel {
       'ip': timeRecordModel.ip,
       'latitude': timeRecordModel.latitude,
       'longitude': timeRecordModel.longitude,
+      'address': timeRecordModel.address,
       'register_type': timeRecordModel.registerType,
     };
     return json.encode(timeRecordMap);
@@ -64,6 +69,7 @@ class TimeRecordModel {
       'ip': timeRecordEncoded['ip'],
       'latitude': timeRecordEncoded['latitude'],
       'longitude': timeRecordEncoded['longitude'],
+      'address': timeRecordEncoded['address'],
       'register_type':
           RegisterTypeModel.fromJson(timeRecordEncoded['register_type']),
     };

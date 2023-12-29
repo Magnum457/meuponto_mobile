@@ -1,10 +1,10 @@
-import 'package:meuponto_mobile/app/core/exceptions/failure.dart';
-import 'package:meuponto_mobile/app/core/ui/widgets/messages.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../core/life_cycle/controller_life_cycle.dart';
 
 import '../../core/ui/widgets/loader.dart';
+import '../../core/exceptions/failure.dart';
+import '../../core/ui/widgets/messages.dart';
 
 import '../../services/day_record/day_record_service.dart';
 import '../../services/user/user_service.dart';

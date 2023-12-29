@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:oauth2/oauth2.dart' as oauth2;
 
 import '../../core/helpers/constants.dart';
 import '../../core/local_storage/local_storage.dart';

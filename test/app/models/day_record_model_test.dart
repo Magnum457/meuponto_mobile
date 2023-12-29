@@ -55,7 +55,7 @@ void main() {
         referenceDate: DateTime(2023, 9, 18),
       );
 
-      expect(dayRecord.getReferenceDate(), equals('18/9/2023'));
+      expect(dayRecord.getReferenceDate(), equals('18/09/2023'));
     });
   });
 }
