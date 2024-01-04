@@ -13,7 +13,7 @@ class _TimeRecordRegistersWidget extends StatelessWidget {
           vertical: 10.0,
         ),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.1,
+          height: MediaQuery.of(context).size.height * 0.14,
           decoration: BoxDecoration(
             color: const Color(0xFFC8D7D2),
             borderRadius: BorderRadius.circular(10.0),
@@ -22,24 +22,34 @@ class _TimeRecordRegistersWidget extends StatelessWidget {
             child: store.timeRecords.isNotEmpty
                 ? GridView.builder(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
+                      horizontal: 10,
+                      vertical: 5,
                     ),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 60,
+                      crossAxisSpacing: 10,
                       mainAxisSpacing: 20,
                       childAspectRatio: 4,
                     ),
                     itemCount: store.timeRecords.length,
                     itemBuilder: (context, index) {
                       var timeRecords = store.timeRecords.toList();
-                      var timeRecord = timeRecords[index + 1];
+                      var timeRecord = timeRecords[index];
                       return Column(
                         children: [
-                          Text(timeRecord.registerType.descricao),
-                          Text(timeRecord.time!.hour.toString()),
+                          Text(
+                            timeRecord.registerType.descricao,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.roboto(
+                              color: const Color(0xFF405965),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            timeRecord.getHorasMinutos(),
+                          ),
                         ],
                       );
                     },

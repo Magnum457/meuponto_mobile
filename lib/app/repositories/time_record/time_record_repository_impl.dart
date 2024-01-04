@@ -65,7 +65,8 @@ class TimeRecordRepositoryImpl implements TimeRecordRepository {
   }
 
   @override
-  Future<void> createTimeRecord(TimeRecordModel timeRecordModel) async {
+  Future<void> createTimeRecord(
+      TimeRecordModel timeRecordModel, String cpf) async {
     try {
       await _restClient.auth().post('/create_time_record', data: {
         'time_record': {
@@ -73,7 +74,9 @@ class TimeRecordRepositoryImpl implements TimeRecordRepository {
           'register_type_id': timeRecordModel.registerType.id,
           'latitude': timeRecordModel.latitude,
           'longitude': timeRecordModel.longitude,
+          'address': timeRecordModel.address,
         },
+        'cpf': cpf,
       });
     } on RestClientException catch (e, s) {
       _logger.error('Erro no registro do ponto.', e, s);

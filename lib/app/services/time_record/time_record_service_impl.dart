@@ -23,6 +23,6 @@ class TimeRecordServiceImpl implements TimeRecordService {
       _timeRecordRepository.getTimeRecord(timeRecordId);
 
   @override
-  Future<void> createTimeRecord(TimeRecordModel timeRecordModel) =>
-      _timeRecordRepository.createTimeRecord(timeRecordModel);
+  Future<void> createTimeRecord(TimeRecordModel timeRecordModel, String cpf) =>
+      _timeRecordRepository.createTimeRecord(timeRecordModel, cpf);
 }

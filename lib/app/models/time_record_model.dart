@@ -20,7 +20,7 @@ class TimeRecordModel {
     this.address,
     required this.registerType,
   }) {
-    time = time ?? DateTime.now();
+    time = adjustTimeStamp(time) ?? DateTime.now().toLocal();
   }
 
   Map<String, dynamic> toMap() {
@@ -82,5 +82,12 @@ class TimeRecordModel {
     String minutos = time!.minute.toString().padLeft(2, '0');
 
     return '$horas:$minutos';
+  }
+
+  DateTime? adjustTimeStamp(DateTime? time) {
+    if (time != null) {
+      return time.toLocal();
+    }
+    return null;
   }
 }

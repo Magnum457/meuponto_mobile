@@ -99,6 +99,62 @@ mixin _$TimeRecordStore on TimeRecordStoreBase, Store {
     });
   }
 
+  late final _$_facialValidatorURLAtom =
+      Atom(name: 'TimeRecordStoreBase._facialValidatorURL', context: context);
+
+  String get facialValidatorURL {
+    _$_facialValidatorURLAtom.reportRead();
+    return super._facialValidatorURL;
+  }
+
+  @override
+  String get _facialValidatorURL => facialValidatorURL;
+
+  @override
+  set _facialValidatorURL(String value) {
+    _$_facialValidatorURLAtom.reportWrite(value, super._facialValidatorURL, () {
+      super._facialValidatorURL = value;
+    });
+  }
+
+  late final _$_tidFacialValidationAtom =
+      Atom(name: 'TimeRecordStoreBase._tidFacialValidation', context: context);
+
+  String get tidFacialValidation {
+    _$_tidFacialValidationAtom.reportRead();
+    return super._tidFacialValidation;
+  }
+
+  @override
+  String get _tidFacialValidation => tidFacialValidation;
+
+  @override
+  set _tidFacialValidation(String value) {
+    _$_tidFacialValidationAtom.reportWrite(value, super._tidFacialValidation,
+        () {
+      super._tidFacialValidation = value;
+    });
+  }
+
+  late final _$_isLoadingFacialValidatorAtom = Atom(
+      name: 'TimeRecordStoreBase._isLoadingFacialValidator', context: context);
+
+  bool get isLoadingFacialValidator {
+    _$_isLoadingFacialValidatorAtom.reportRead();
+    return super._isLoadingFacialValidator;
+  }
+
+  @override
+  bool get _isLoadingFacialValidator => isLoadingFacialValidator;
+
+  @override
+  set _isLoadingFacialValidator(bool value) {
+    _$_isLoadingFacialValidatorAtom
+        .reportWrite(value, super._isLoadingFacialValidator, () {
+      super._isLoadingFacialValidator = value;
+    });
+  }
+
   late final _$getUserLoggedAsyncAction =
       AsyncAction('TimeRecordStoreBase.getUserLogged', context: context);
 
@@ -140,6 +196,26 @@ mixin _$TimeRecordStore on TimeRecordStoreBase, Store {
         .run(() => super.setRegisterType(descricao, registerTypeId));
   }
 
+  late final _$getFacialValidationUrlAsyncAction = AsyncAction(
+      'TimeRecordStoreBase.getFacialValidationUrl',
+      context: context);
+
+  @override
+  Future<void> getFacialValidationUrl() {
+    return _$getFacialValidationUrlAsyncAction
+        .run(() => super.getFacialValidationUrl());
+  }
+
+  late final _$getStatusOperationByTidAsyncAction = AsyncAction(
+      'TimeRecordStoreBase.getStatusOperationByTid',
+      context: context);
+
+  @override
+  Future<bool> getStatusOperationByTid() {
+    return _$getStatusOperationByTidAsyncAction
+        .run(() => super.getStatusOperationByTid());
+  }
+
   late final _$TimeRecordStoreBaseActionController =
       ActionController(name: 'TimeRecordStoreBase', context: context);
 
@@ -149,6 +225,28 @@ mixin _$TimeRecordStore on TimeRecordStoreBase, Store {
         name: 'TimeRecordStoreBase.getOptionToRegisterType');
     try {
       return super.getOptionToRegisterType(index);
+    } finally {
+      _$TimeRecordStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setLoadingFacialValidation() {
+    final _$actionInfo = _$TimeRecordStoreBaseActionController.startAction(
+        name: 'TimeRecordStoreBase.setLoadingFacialValidation');
+    try {
+      return super.setLoadingFacialValidation();
+    } finally {
+      _$TimeRecordStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic unsetLoadingFacialValidation() {
+    final _$actionInfo = _$TimeRecordStoreBaseActionController.startAction(
+        name: 'TimeRecordStoreBase.unsetLoadingFacialValidation');
+    try {
+      return super.unsetLoadingFacialValidation();
     } finally {
       _$TimeRecordStoreBaseActionController.endAction(_$actionInfo);
     }

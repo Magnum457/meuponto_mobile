@@ -4,6 +4,7 @@ abstract class RestClient {
   RestClient auth();
   RestClient unauth();
   RestClient identidadeRequest();
+  RestClient facialValidatorRequest();
 
   Future<RestClientResponse<T>> post<T>(
     String path, {

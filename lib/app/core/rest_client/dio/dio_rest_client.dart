@@ -28,6 +28,13 @@ class DioRestClient implements RestClient {
     receiveTimeout:
         const Duration(milliseconds: Constants.restClientReceiveTimeout),
   );
+  final _facialValidationOptions = BaseOptions(
+    baseUrl: Constants.urlFacialValidatorAPI,
+    connectTimeout:
+        const Duration(milliseconds: Constants.restClientConnectTimeout),
+    receiveTimeout:
+        const Duration(milliseconds: Constants.restClientReceiveTimeout),
+  );
 
   DioRestClient({
     required LocalStorage localStorage,
@@ -47,6 +54,7 @@ class DioRestClient implements RestClient {
     _dio.options = _defaultOptions;
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = true;
     _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = true;
+    _facialValidationOptions.extra[Constants.restClientAuthRequiredKey] = true;
     return this;
   }
 
@@ -54,12 +62,19 @@ class DioRestClient implements RestClient {
   RestClient unauth() {
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = false;
     _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = false;
+    _facialValidationOptions.extra[Constants.restClientAuthRequiredKey] = false;
     return this;
   }
 
   @override
   RestClient identidadeRequest() {
     _dio.options = _identidadeOptions;
+    return this;
+  }
+
+  @override
+  RestClient facialValidatorRequest() {
+    _dio.options = _facialValidationOptions;
     return this;
   }
 
