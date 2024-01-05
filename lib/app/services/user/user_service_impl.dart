@@ -1,7 +1,9 @@
-import 'package:meuponto_mobile/app/core/helpers/constants.dart';
-import 'package:meuponto_mobile/app/core/local_storage/local_storage.dart';
-import 'package:meuponto_mobile/app/models/user_model.dart';
-import 'package:meuponto_mobile/app/repositories/user/user_repository.dart';
+import '../../core/helpers/constants.dart';
+import '../../core/local_storage/local_storage.dart';
+
+import '../../models/user_model.dart';
+
+import '../../repositories/user/user_repository.dart';
 
 import 'user_service.dart';
 

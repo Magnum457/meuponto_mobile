@@ -81,6 +81,46 @@ mixin _$TimeRecordStore on TimeRecordStoreBase, Store {
     });
   }
 
+  late final _$_facialValidationUrlResponseAtom = Atom(
+      name: 'TimeRecordStoreBase._facialValidationUrlResponse',
+      context: context);
+
+  FacialValidationUrlResponse? get facialValidationUrlResponse {
+    _$_facialValidationUrlResponseAtom.reportRead();
+    return super._facialValidationUrlResponse;
+  }
+
+  @override
+  FacialValidationUrlResponse? get _facialValidationUrlResponse =>
+      facialValidationUrlResponse;
+
+  @override
+  set _facialValidationUrlResponse(FacialValidationUrlResponse? value) {
+    _$_facialValidationUrlResponseAtom
+        .reportWrite(value, super._facialValidationUrlResponse, () {
+      super._facialValidationUrlResponse = value;
+    });
+  }
+
+  late final _$_tidOperationResponseAtom =
+      Atom(name: 'TimeRecordStoreBase._tidOperationResponse', context: context);
+
+  TidOperationResponse? get tidOperationResponse {
+    _$_tidOperationResponseAtom.reportRead();
+    return super._tidOperationResponse;
+  }
+
+  @override
+  TidOperationResponse? get _tidOperationResponse => tidOperationResponse;
+
+  @override
+  set _tidOperationResponse(TidOperationResponse? value) {
+    _$_tidOperationResponseAtom.reportWrite(value, super._tidOperationResponse,
+        () {
+      super._tidOperationResponse = value;
+    });
+  }
+
   late final _$_timeRecordsAtom =
       Atom(name: 'TimeRecordStoreBase._timeRecords', context: context);
 
@@ -211,7 +251,7 @@ mixin _$TimeRecordStore on TimeRecordStoreBase, Store {
       context: context);
 
   @override
-  Future<bool> getStatusOperationByTid() {
+  Future<void> getStatusOperationByTid() {
     return _$getStatusOperationByTidAsyncAction
         .run(() => super.getStatusOperationByTid());
   }

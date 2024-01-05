@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:meuponto_mobile/app/core/rest_client/dio/interceptors/auth_access_token_interceptor.dart';
+
+import 'interceptors/secret_facial_validator_api_interceptor.dart';
+import 'interceptors/auth_access_token_interceptor.dart';
 
 import '../../helpers/constants.dart';
 import '../../exceptions/rest_client_exception.dart';
@@ -46,6 +48,7 @@ class DioRestClient implements RestClient {
     _dio.interceptors.addAll([
       AuthAccessTokenInterceptor(
           localStorage: localStorage, authStore: authStore),
+      SecretFacialValidatorApiInterceptor(),
     ]);
   }
 
@@ -54,7 +57,6 @@ class DioRestClient implements RestClient {
     _dio.options = _defaultOptions;
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = true;
     _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = true;
-    _facialValidationOptions.extra[Constants.restClientAuthRequiredKey] = true;
     return this;
   }
 
@@ -62,7 +64,22 @@ class DioRestClient implements RestClient {
   RestClient unauth() {
     _defaultOptions.extra[Constants.restClientAuthRequiredKey] = false;
     _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = false;
-    _facialValidationOptions.extra[Constants.restClientAuthRequiredKey] = false;
+    return this;
+  }
+
+  @override
+  RestClient requireSecretFacialValidator() {
+    _defaultOptions.extra[Constants.restClientAuthRequiredKey] = false;
+    _identidadeOptions.extra[Constants.restClientAuthRequiredKey] = false;
+    _facialValidationOptions.extra[Constants.apiFacialValidationRequiredKey] =
+        true;
+    return this;
+  }
+
+  @override
+  RestClient notRequireSecretFacialValidator() {
+    _facialValidationOptions.extra[Constants.apiFacialValidationRequiredKey] =
+        false;
     return this;
   }
 

@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:meuponto_mobile/app/core/helpers/constants.dart';
+import 'package:meuponto_mobile/app/services/facial_validator/facial_validation_url_response.dart';
+import 'package:meuponto_mobile/app/services/facial_validator/tid_operation_response.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:dio/dio.dart';
@@ -12,6 +12,7 @@ import '../../core/ui/widgets/loader.dart';
 import '../../core/exceptions/failure.dart';
 import '../../core/ui/widgets/messages.dart';
 
+import '../../services/facial_validator/facial_validation_service.dart';
 import '../../services/time_record/time_record_service.dart';
 import '../../services/user/user_service.dart';
 
@@ -28,16 +29,19 @@ class TimeRecordStore = TimeRecordStoreBase with _$TimeRecordStore;
 
 abstract class TimeRecordStoreBase with Store, ControllerLifeCycle {
   final TimeRecordService _timeRecordService;
+  final FacialValidationService _facialValidationService;
   final UserService _userService;
   final IpHandler _ipHandler;
   final Locator _geoLocator;
 
   TimeRecordStoreBase({
     required TimeRecordService timeRecordService,
+    required FacialValidationService facialValidationService,
     required UserService userService,
     required IpHandler ipHandler,
     required Locator geoLocator,
   })  : _timeRecordService = timeRecordService,
+        _facialValidationService = facialValidationService,
         _userService = userService,
         _ipHandler = ipHandler,
         _geoLocator = geoLocator;
@@ -50,6 +54,10 @@ abstract class TimeRecordStoreBase with Store, ControllerLifeCycle {
   IpResponse? _ipResponse;
   @readonly
   LocatorResponse? _locatorResponse;
+  @readonly
+  FacialValidationUrlResponse? _facialValidationUrlResponse;
+  @readonly
+  TidOperationResponse? _tidOperationResponse;
   @readonly
   var _timeRecords = const <TimeRecordModel>[];
   @readonly
@@ -110,6 +118,7 @@ abstract class TimeRecordStoreBase with Store, ControllerLifeCycle {
       );
       await _timeRecordService.createTimeRecord(
           newTimeRecord, _loggedUser!.cpf!);
+      Messages.info('O ponto foi registrado.');
       Modular.to.pushNamed('/home/');
     } on Failure catch (e) {
       final errorMessage = e.message ?? 'Erro ao registrar o ponto.';
@@ -168,26 +177,12 @@ abstract class TimeRecordStoreBase with Store, ControllerLifeCycle {
 
   @action
   Future<void> getFacialValidationUrl() async {
-    Dio dio = Dio();
-
-    dio.interceptors.add(
-      InterceptorsWrapper(onRequest: (options, handler) {
-        options.headers['Authorization'] =
-            'Bearer ${Constants.secretFacialValidatorApi}';
-        return handler.next(options);
-      }),
-    );
-
     try {
-      Response response = await dio.post(
-        'https://api-facial-dev.apps.dtcn.detran.ce.gov.br/api/v1/validador_facial/requisita_rota_com_match',
-        data: {
-          'cpf': _loggedUser!.cpf!,
-          'sistema': 'Meu Ponto',
-        },
-      );
-      _facialValidatorURL = response.data['url'] as String;
-      _tidFacialValidation = response.data['tid'] as String;
+      _facialValidationUrlResponse = await _facialValidationService
+          .getFacialValidationUrl(_loggedUser!.cpf!, 'Meu Ponto');
+
+      _facialValidatorURL = _facialValidationUrlResponse?.url ?? '';
+      _tidFacialValidation = _facialValidationUrlResponse?.url ?? '';
     } on DioException catch (e) {
       final errorMessage =
           e.message ?? 'Erro ao recuperar a url da validação facial.';
@@ -203,43 +198,20 @@ abstract class TimeRecordStoreBase with Store, ControllerLifeCycle {
   }
 
   @action
-  Future<bool> getStatusOperationByTid() async {
-    Dio dio = Dio();
-
-    dio.interceptors.add(
-      InterceptorsWrapper(onRequest: (options, handler) {
-        options.headers['Authorization'] =
-            'Bearer ${Constants.secretFacialValidatorApi}';
-        return handler.next(options);
-      }),
-    );
-
+  Future<void> getStatusOperationByTid() async {
     try {
-      Response response = await dio.post(
-        'https://api-facial-dev.apps.dtcn.detran.ce.gov.br/api/v1/validador_facial/recupera_operacao',
-        data: {
-          'tid': _tidFacialValidation,
-        },
-      );
-      if (response.data is List) {
-        return response.data[0]['score_selfie'] as double > 80.0 ? true : false;
-      } else {
-        var response_data = response.data[0];
-        print("Response: " + response_data['cpf']);
-        return false;
-      }
+      _tidOperationResponse = await _facialValidationService
+          .getStatusOperationByTid(_facialValidationUrlResponse!.tid!);
     } on DioException catch (e) {
       final errorMessage =
           e.message ?? 'Erro ao recuperar os dados da operação.';
       Messages.alert(errorMessage);
-      return false;
     } on Failure catch (e) {
       final errorMessage =
           e.message ?? 'Erro ao recuperar os dados da operação.';
 
       Messages.alert(errorMessage);
       _facialValidatorURL = '';
-      return false;
     }
   }
 }

@@ -12,6 +12,8 @@ class Constants {
       'LOCAL_STORAGE_USER_LOGGED_DATA_KEY';
 
   static const restClientAuthRequiredKey = 'auth_required';
+  static const apiFacialValidationRequiredKey =
+      'secret_facial_validation_required';
 
   static const clientSession = 'CLIENT_SESSION';
 

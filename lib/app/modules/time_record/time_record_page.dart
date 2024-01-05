@@ -107,7 +107,8 @@ class _TimeRecordPageState
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (await store.getStatusOperationByTid()) {
+                    await store.getStatusOperationByTid();
+                    if (store.tidOperationResponse?.hasSelfie == true) {
                       await store.createTimeRecord();
                     } else {
                       Messages.alert(

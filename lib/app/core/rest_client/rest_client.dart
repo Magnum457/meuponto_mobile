@@ -3,6 +3,8 @@ import 'rest_client_response.dart';
 abstract class RestClient {
   RestClient auth();
   RestClient unauth();
+  RestClient requireSecretFacialValidator();
+  RestClient notRequireSecretFacialValidator();
   RestClient identidadeRequest();
   RestClient facialValidatorRequest();
 

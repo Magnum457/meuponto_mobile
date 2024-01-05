@@ -18,6 +18,9 @@ import '../../services/user/user_service.dart';
 import '../../services/time_record/time_record_service_impl.dart';
 import '../../services/user/user_service_impl.dart';
 
+import '../../services/facial_validator/facial_validation_service.dart';
+import '../../services/facial_validator/facial_validation_service_impl.dart';
+
 import 'time_record_page.dart';
 import 'time_record_store.dart';
 
@@ -36,6 +39,12 @@ class TimeRecordModule extends Module {
         localStorage: i<LocalStorage>(),
       ),
     ),
+    Bind.lazySingleton<FacialValidationService>(
+      (i) => FacialValidationServiceImpl(
+        restClient: i<RestClient>(),
+        log: i<AppLogger>(),
+      ),
+    ),
     Bind.lazySingleton<TimeRecordRepository>(
       (i) => TimeRecordRepositoryImpl(
         restClient: i<RestClient>(),
@@ -50,6 +59,7 @@ class TimeRecordModule extends Module {
     Bind.singleton<TimeRecordStore>(
       (i) => TimeRecordStore(
         timeRecordService: i<TimeRecordService>(),
+        facialValidationService: i<FacialValidationService>(),
         userService: i<UserService>(),
         ipHandler: i<IpHandler>(),
         geoLocator: i<Locator>(),

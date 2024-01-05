@@ -22,21 +22,24 @@ class AuthAccessTokenInterceptor extends Interceptor {
     final authRequired =
         options.extra[Constants.restClientAuthRequiredKey] ?? false;
 
-    if (authRequired) {
-      final accessToken = await _localStorage
-          .read<String>(Constants.localStorageAccessTokenKey);
-      if (accessToken == null) {
-        await _authStore.logout();
-        return handler.reject(DioException(
-          requestOptions: options,
-          error: 'Token Expirado',
-          type: DioExceptionType.cancel,
-        ));
+    if (options.headers['Authorization'] == null) {
+      if (authRequired) {
+        final accessToken = await _localStorage
+            .read<String>(Constants.localStorageAccessTokenKey);
+        if (accessToken == null) {
+          await _authStore.logout();
+          return handler.reject(DioException(
+            requestOptions: options,
+            error: 'Token Expirado',
+            type: DioExceptionType.cancel,
+          ));
+        }
+        options.headers['Authorization'] = "Bearer $accessToken";
+      } else {
+        options.headers.remove('Authorization');
       }
-      options.headers['Authorization'] = "Bearer $accessToken";
-    } else {
-      options.headers.remove('Authorization');
     }
+
     handler.next(options);
   }
 }
